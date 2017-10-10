@@ -21,3 +21,5 @@ plot(H)
 
 KM = kmeans(X, 3)
 summary(KM)
+
+summary(y)
