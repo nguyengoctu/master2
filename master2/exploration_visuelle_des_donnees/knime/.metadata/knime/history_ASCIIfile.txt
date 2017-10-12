@@ -1,1 +1,3 @@
+file:/home/ngoctu/workspace/datasets/iris.data
+/home/ngoctu/workspace/datasets/iris.data
 knime://knime.workflow/data.all

@@ -4,17 +4,49 @@
     "created":"2017-10-11 11:00",
     "nodestats":{
         "nodes":[
+            {
+                "id":"org.knime.base.node.io.filereader.FileReaderNodeFactory#File Reader",
+                "nrexecs":1,
+                "nrfails":0,
+                "exectime":42,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.mine.pca.PCANodeFactory#PCA"
+            },
+            {
+                "id":"org.knime.base.node.mine.pca.PCANodeFactory#PCA",
+                "nrexecs":1,
+                "nrfails":0,
+                "exectime":25,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager"
+            },
+            {
+                "id":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager",
+                "nrexecs":1,
+                "nrfails":0,
+                "exectime":4,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.viz.plotter.scatter.ScatterPlotterNodeFactory#Scatter Plot"
+            },
+            {
+                "id":"org.knime.base.node.viz.plotter.scatter.ScatterPlotterNodeFactory#Scatter Plot",
+                "nrexecs":1,
+                "nrfails":0,
+                "exectime":15,
+                "nrcreated":1,
+                "successor":"n/a"
+            }
         ],
         "metaNodes":{
         },
         "wrappedNodes":{
         }
     },
-    "uptime":84529,
+    "uptime":471436,
     "workflowsOpened":0,
     "remoteWorkflowsOpened":0,
-    "launches":1,
-    "timeSinceLastStart":84530,
+    "launches":2,
+    "timeSinceLastStart":858344,
     "crashes":0,
     "properlyShutDown":true
 }
