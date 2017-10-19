@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<met:KNIMEMetaInfo xmlns:met="http://www.knime.org/2.9/metainfo">
+  <met:element form="text" name="Author">albrecht</met:element>
+  <met:element form="date" name="Creation Date">9/2/2016/10:39:18 +01:00</met:element>
+  <met:element form="multiline" name="Comments">Basic Customer Segmentation
+
+This workflow implements a basic customer segmentation through a clustering procedure. No input is required from business analyst.
+
+URL: Customer Segmentation comfortably from a Web Browser https://www.knime.org/files/white-papers/customer_segmentation.pdf
+TAG: clustering, k-Means, customer segmentation</met:element>
+  <met:element form="text" name="Last Uploaded" read-only="true">2016-11-01 10:05:40 +0000</met:element>
+  <met:element form="text" name="Last Edited" read-only="true">2016-06-23 17:37:10 +0200</met:element>
+</met:KNIMEMetaInfo>

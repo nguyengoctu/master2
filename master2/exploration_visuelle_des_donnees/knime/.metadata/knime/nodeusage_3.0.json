@@ -6,34 +6,114 @@
         "nodes":[
             {
                 "id":"org.knime.base.node.io.filereader.FileReaderNodeFactory#File Reader",
-                "nrexecs":1,
+                "nrexecs":4,
                 "nrfails":0,
-                "exectime":42,
+                "exectime":194,
                 "nrcreated":1,
-                "successor":"org.knime.base.node.mine.pca.PCANodeFactory#PCA"
+                "successor":"org.knime.base.node.mine.cluster.kmeans.ClusterNodeFactory2#k-Means"
             },
             {
                 "id":"org.knime.base.node.mine.pca.PCANodeFactory#PCA",
-                "nrexecs":1,
+                "nrexecs":2,
                 "nrfails":0,
-                "exectime":25,
+                "exectime":39,
                 "nrcreated":1,
                 "successor":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager"
             },
             {
                 "id":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager",
-                "nrexecs":1,
+                "nrexecs":13,
                 "nrfails":0,
-                "exectime":4,
-                "nrcreated":1,
+                "exectime":12,
+                "nrcreated":7,
                 "successor":"org.knime.base.node.viz.plotter.scatter.ScatterPlotterNodeFactory#Scatter Plot"
             },
             {
                 "id":"org.knime.base.node.viz.plotter.scatter.ScatterPlotterNodeFactory#Scatter Plot",
+                "nrexecs":13,
+                "nrfails":0,
+                "exectime":449,
+                "nrcreated":7,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.mine.cluster.kmeans.ClusterNodeFactory2#k-Means",
+                "nrexecs":13,
+                "nrfails":0,
+                "exectime":1836,
+                "nrcreated":3,
+                "successor":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager"
+            },
+            {
+                "id":"org.knime.base.node.viz.table.TableNodeFactory#Interactive Table",
+                "nrexecs":4,
+                "nrfails":0,
+                "exectime":4,
+                "nrcreated":1,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.viz.property.shape.ShapeManagerNodeFactory#Shape Manager",
+                "nrexecs":0,
+                "nrfails":0,
+                "exectime":0,
+                "nrcreated":1,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.io.csvreader.CSVReaderNodeFactory#CSV Reader",
                 "nrexecs":1,
                 "nrfails":0,
-                "exectime":15,
+                "exectime":21,
                 "nrcreated":1,
+                "successor":"org.knime.base.node.mine.cluster.kmeans.ClusterNodeFactory2#k-Means"
+            },
+            {
+                "id":"org.knime.ext.poi2.node.read3.XLSReaderNodeFactory#Excel Reader (XLS)",
+                "nrexecs":1,
+                "nrfails":0,
+                "exectime":801,
+                "nrcreated":1,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.ext.poi.node.read2.XLSReaderNodeFactory#XLS Reader (deprecated)",
+                "nrexecs":2,
+                "nrfails":0,
+                "exectime":1273,
+                "nrcreated":0,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.joiner.Joiner2NodeFactory#Joiner",
+                "nrexecs":2,
+                "nrfails":0,
+                "exectime":309,
+                "nrcreated":0,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.colconvert.numbertostring.NumberToStringNodeFactory#Number To String",
+                "nrexecs":2,
+                "nrfails":0,
+                "exectime":47,
+                "nrcreated":0,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.pmml.normalize.NormalizerPMMLNodeFactory2#Normalizer (PMML)",
+                "nrexecs":2,
+                "nrfails":0,
+                "exectime":463,
+                "nrcreated":0,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.pmml.normalize.NormalizerPMMLDeNodeFactory#Denormalizer (PMML)",
+                "nrexecs":2,
+                "nrfails":0,
+                "exectime":141,
+                "nrcreated":0,
                 "successor":"n/a"
             }
         ],
@@ -42,11 +122,11 @@
         "wrappedNodes":{
         }
     },
-    "uptime":471436,
-    "workflowsOpened":0,
-    "remoteWorkflowsOpened":0,
-    "launches":2,
-    "timeSinceLastStart":858344,
+    "uptime":2066461,
+    "workflowsOpened":1,
+    "remoteWorkflowsOpened":3,
+    "launches":4,
+    "timeSinceLastStart":1610914,
     "crashes":0,
     "properlyShutDown":true
 }

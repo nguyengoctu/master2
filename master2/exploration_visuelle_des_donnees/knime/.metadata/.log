@@ -20,3 +20,25 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64
 !MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
 !SUBENTRY 1 org.eclipse.ui 2 0 2017-10-11 11:16:24.401
 !MESSAGE Cannot bind to an undefined command: plug-in='org.knime.workbench.editor', id='knime.commands.editor.gridSettings'
+!SESSION 2017-10-18 09:56:56.283 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_60
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.ui 2 0 2017-10-18 09:57:06.588
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2017-10-18 09:57:06.588
+!MESSAGE Cannot bind to an undefined command: plug-in='org.knime.workbench.editor', id='knime.commands.editor.gridSettings'
+!SESSION 2017-10-18 11:32:44.087 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_60
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -data file:/home/ngoctu/workspace/master2/exploration_visuelle_des_donnees/knime/ -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.ui 2 0 2017-10-18 11:32:49.655
+!MESSAGE Warnings while parsing the key bindings from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.bindings' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2017-10-18 11:32:49.655
+!MESSAGE Cannot bind to an undefined command: plug-in='org.knime.workbench.editor', id='knime.commands.editor.gridSettings'

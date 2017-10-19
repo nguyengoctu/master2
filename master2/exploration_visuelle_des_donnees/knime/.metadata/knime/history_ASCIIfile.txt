@@ -1,3 +1,4 @@
+knime://knime.workflow/data/ContractData.csv
+knime://knime.workflow/data.all
 file:/home/ngoctu/workspace/datasets/iris.data
 /home/ngoctu/workspace/datasets/iris.data
-knime://knime.workflow/data.all

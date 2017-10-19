@@ -76,7 +76,13 @@ class TwoLayerNet(object):
     # Store the result in the scores variable, which should be an array of      #
     # shape (N, C).                                                             #
     #############################################################################
-    pass
+    N = X.shape[0]
+    h = np.dot(X, W1) + b1
+
+    # Replace all negative values in Z1 with zeros (ReLU)
+    h[h < 0] = 0
+
+    scores = np.dot(h, W2) + b2
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -93,7 +99,10 @@ class TwoLayerNet(object):
     # in the variable loss, which should be a scalar. Use the Softmax           #
     # classifier loss.                                                          #
     #############################################################################
-    pass
+    scores -= np.max(scores, axis=1, keepdims=True)
+    P = np.exp(scores)
+    P = P / np.sum(P, axis=1, keepdims=True)
+    loss = - np.sum(np.log(P[np.arange(N), y])) / N + reg * (np.sum(W1 ** 2) + np.sum(W2 ** 2) + np.sum(b1 ** 2) + np.sum(b2 ** 2))
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -105,7 +114,23 @@ class TwoLayerNet(object):
     # and biases. Store the results in the grads dictionary. For example,       #
     # grads['W1'] should store the gradient on W1, and be a matrix of same size #
     #############################################################################
-    pass
+    df_dW2 = None
+    df_db2 = None
+    df_dW1 = None
+    df_db1 = None
+
+    df_dW2 = np.dot(h.T, P)
+    y_ = np.zeros((N, C))
+ 	y_[np.arange(N), y] = -1
+ 	df_dW2 += np.dot(X.T, y_)
+ 	df_dW2 = df_dW2 / N + 2 * reg * W2
+
+ 	df_db2 = 
+
+    grads['W1'] = df_dW1
+    grads['b1'] = df_db1
+    grads['W2'] = df_dW2
+    grads['b2'] = df_db2
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
