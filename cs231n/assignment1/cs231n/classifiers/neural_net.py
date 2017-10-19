@@ -79,10 +79,11 @@ class TwoLayerNet(object):
     N = X.shape[0]
     h = np.dot(X, W1) + b1
 
-    # Replace all negative values in Z1 with zeros (ReLU)
-    h[h < 0] = 0
+    # Replace all negative values in h with zeros (ReLU)
+    h1 = np.maximum(0, h)
 
-    scores = np.dot(h, W2) + b2
+    scores = np.dot(h1, W2) + b2
+    H, C = W2.shape
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -119,13 +120,22 @@ class TwoLayerNet(object):
     df_dW1 = None
     df_db1 = None
 
-    df_dW2 = np.dot(h.T, P)
+    # Convert y to one-hot
     y_ = np.zeros((N, C))
- 	  y_[np.arange(N), y] = -1
- 	  df_dW2 += np.dot(X.T, y_)
- 	  df_dW2 = df_dW2 / N + 2 * reg * W2
+    y_[np.arange(N), y] = 1
 
- 	  df_db2 = 
+    df_dW2 = h1.T.dot(P - y_) / N + 2 * reg * W2
+    df_db2 = np.sum(P - y_, axis=0) / N + 2 * reg * b2
+
+    df_dh1 = (P - y_).dot(W2.T)
+    dh1_dh = np.array(h)
+    dh1_dh[dh1_dh <= 0] = 0
+    dh1_dh[dh1_dh > 0] = 1
+
+    df_dh = df_dh1 * dh1_dh
+
+    df_dW1 = X.T.dot(df_dh) / N + 2 * reg * W1
+    df_db1 = np.sum(df_dh, axis=0) / N + 2 * reg * b1
 
     grads['W1'] = df_dW1
     grads['b1'] = df_db1
@@ -174,7 +184,9 @@ class TwoLayerNet(object):
       # TODO: Create a random minibatch of training data and labels, storing  #
       # them in X_batch and y_batch respectively.                             #
       #########################################################################
-      pass
+      batch_indices = np.random.choice(num_train, batch_size)
+      X_batch = X[batch_indices]
+      y_batch = y[batch_indices]
       #########################################################################
       #                             END OF YOUR CODE                          #
       #########################################################################
@@ -189,7 +201,10 @@ class TwoLayerNet(object):
       # using stochastic gradient descent. You'll need to use the gradients   #
       # stored in the grads dictionary defined above.                         #
       #########################################################################
-      pass
+      self.params['W1'] -= learning_rate * grads['W1']
+      self.params['b1'] -= learning_rate * grads['b1']
+      self.params['W2'] -= learning_rate * grads['W2']
+      self.params['b2'] -= learning_rate * grads['b2']
       #########################################################################
       #                             END OF YOUR CODE                          #
       #########################################################################
@@ -234,7 +249,7 @@ class TwoLayerNet(object):
     ###########################################################################
     # TODO: Implement this function; it should be VERY simple!                #
     ###########################################################################
-    pass
+    y_pred = np.argmax(self.loss(X), axis=1)
     ###########################################################################
     #                              END OF YOUR CODE                           #
     ###########################################################################
