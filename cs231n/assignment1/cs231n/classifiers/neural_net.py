@@ -121,11 +121,11 @@ class TwoLayerNet(object):
 
     df_dW2 = np.dot(h.T, P)
     y_ = np.zeros((N, C))
- 	y_[np.arange(N), y] = -1
- 	df_dW2 += np.dot(X.T, y_)
- 	df_dW2 = df_dW2 / N + 2 * reg * W2
+ 	  y_[np.arange(N), y] = -1
+ 	  df_dW2 += np.dot(X.T, y_)
+ 	  df_dW2 = df_dW2 / N + 2 * reg * W2
 
- 	df_db2 = 
+ 	  df_db2 = 
 
     grads['W1'] = df_dW1
     grads['b1'] = df_db1
