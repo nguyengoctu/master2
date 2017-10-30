@@ -1,1 +1,3 @@
+/home/ngoctu/workspace/master2/exploration_visuelle_des_donnees/waveform-noise.data
+/home/ngoctu/workspace/master2/exploration_visuelle_des_donnees/churn.csv
 /home/ngoctu/workspace/datasets/iris.data

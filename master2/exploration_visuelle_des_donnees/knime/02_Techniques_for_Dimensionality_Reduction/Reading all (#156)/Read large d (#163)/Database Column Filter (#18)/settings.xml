@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="settings.xml">
+<entry key="node_file" type="xstring" value="settings.xml"/>
+<config key="flow_stack"/>
+<config key="internal_node_subsettings">
+<entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
+</config>
+<config key="model">
+<config key="column_filter_Internals">
+<entry key="SettingsModelID" type="xstring" value="SMID_filterString"/>
+<entry key="EnabledStatus" type="xboolean" value="true"/>
+</config>
+<config key="column_filter">
+<config key="InclList">
+<entry key="array-size" type="xint" value="233"/>
+<entry key="0" type="xstring" value="VAR1"/>
+<entry key="1" type="xstring" value="VAR2"/>
+<entry key="2" type="xstring" value="VAR3"/>
+<entry key="3" type="xstring" value="VAR4"/>
+<entry key="4" type="xstring" value="VAR5"/>
+<entry key="5" type="xstring" value="VAR6"/>
+<entry key="6" type="xstring" value="VAR7"/>
+<entry key="7" type="xstring" value="VAR8"/>
+<entry key="8" type="xstring" value="VAR9"/>
+<entry key="9" type="xstring" value="VAR10"/>
+<entry key="10" type="xstring" value="VAR11"/>
+<entry key="11" type="xstring" value="VAR12"/>
+<entry key="12" type="xstring" value="VAR13"/>
+<entry key="13" type="xstring" value="VAR14"/>
+<entry key="14" type="xstring" value="VAR15"/>
+<entry key="15" type="xstring" value="VAR16"/>
+<entry key="16" type="xstring" value="VAR17"/>
+<entry key="17" type="xstring" value="VAR18"/>
+<entry key="18" type="xstring" value="VAR19"/>
+<entry key="19" type="xstring" value="VAR20"/>
+<entry key="20" type="xstring" value="VAR21"/>
+<entry key="21" type="xstring" value="VAR22"/>
+<entry key="22" type="xstring" value="VAR23"/>
+<entry key="23" type="xstring" value="VAR24"/>
+<entry key="24" type="xstring" value="VAR25"/>
+<entry key="25" type="xstring" value="VAR26"/>
+<entry key="26" type="xstring" value="VAR27"/>
+<entry key="27" type="xstring" value="VAR28"/>
+<entry key="28" type="xstring" value="VAR29"/>
+<entry key="29" type="xstring" value="VAR30"/>
+<entry key="30" type="xstring" value="VAR31"/>
+<entry key="31" type="xstring" value="VAR32"/>
+<entry key="32" type="xstring" value="VAR33"/>
+<entry key="33" type="xstring" value="VAR34"/>
+<entry key="34" type="xstring" value="VAR35"/>
+<entry key="35" type="xstring" value="VAR36"/>
+<entry key="36" type="xstring" value="VAR37"/>
+<entry key="37" type="xstring" value="VAR38"/>
+<entry key="38" type="xstring" value="VAR39"/>
+<entry key="39" type="xstring" value="VAR40"/>
+<entry key="40" type="xstring" value="VAR41"/>
+<entry key="41" type="xstring" value="VAR42"/>
+<entry key="42" type="xstring" value="VAR43"/>
+<entry key="43" type="xstring" value="VAR44"/>
+<entry key="44" type="xstring" value="VAR45"/>
+<entry key="45" type="xstring" value="VAR46"/>
+<entry key="46" type="xstring" value="VAR47"/>
+<entry key="47" type="xstring" value="VAR48"/>
+<entry key="48" type="xstring" value="VAR49"/>
+<entry key="49" type="xstring" value="VAR50"/>
+<entry key="50" type="xstring" value="VAR51"/>
+<entry key="51" type="xstring" value="VAR52"/>
+<entry key="52" type="xstring" value="VAR53"/>
+<entry key="53" type="xstring" value="VAR54"/>
+<entry key="54" type="xstring" value="VAR55"/>
+<entry key="55" type="xstring" value="VAR56"/>
+<entry key="56" type="xstring" value="VAR57"/>
+<entry key="57" type="xstring" value="VAR58"/>
+<entry key="58" type="xstring" value="VAR59"/>
+<entry key="59" type="xstring" value="VAR60"/>
+<entry key="60" type="xstring" value="VAR61"/>
+<entry key="61" type="xstring" value="VAR62"/>
+<entry key="62" type="xstring" value="VAR63"/>
+<entry key="63" type="xstring" value="VAR64"/>
+<entry key="64" type="xstring" value="VAR65"/>
+<entry key="65" type="xstring" value="VAR66"/>
+<entry key="66" type="xstring" value="VAR67"/>
+<entry key="67" type="xstring" value="VAR68"/>
+<entry key="68" type="xstring" value="VAR69"/>
+<entry key="69" type="xstring" value="VAR70"/>
+<entry key="70" type="xstring" value="VAR71"/>
+<entry key="71" type="xstring" value="VAR72"/>
+<entry key="72" type="xstring" value="VAR73"/>
+<entry key="73" type="xstring" value="VAR74"/>
+<entry key="74" type="xstring" value="VAR75"/>
+<entry key="75" type="xstring" value="VAR76"/>
+<entry key="76" type="xstring" value="VAR77"/>
+<entry key="77" type="xstring" value="VAR78"/>
+<entry key="78" type="xstring" value="VAR79"/>
+<entry key="79" type="xstring" value="VAR80"/>
+<entry key="80" type="xstring" value="VAR81"/>
+<entry key="81" type="xstring" value="VAR82"/>
+<entry key="82" type="xstring" value="VAR83"/>
+<entry key="83" type="xstring" value="VAR84"/>
+<entry key="84" type="xstring" value="VAR85"/>
+<entry key="85" type="xstring" value="VAR86"/>
+<entry key="86" type="xstring" value="VAR87"/>
+<entry key="87" type="xstring" value="VAR88"/>
+<entry key="88" type="xstring" value="VAR89"/>
+<entry key="89" type="xstring" value="VAR90"/>
+<entry key="90" type="xstring" value="VAR91"/>
+<entry key="91" type="xstring" value="VAR92"/>
+<entry key="92" type="xstring" value="VAR93"/>
+<entry key="93" type="xstring" value="VAR94"/>
+<entry key="94" type="xstring" value="VAR95"/>
+<entry key="95" type="xstring" value="VAR96"/>
+<entry key="96" type="xstring" value="VAR97"/>
+<entry key="97" type="xstring" value="VAR98"/>
+<entry key="98" type="xstring" value="VAR99"/>
+<entry key="99" type="xstring" value="VAR100"/>
+<entry key="100" type="xstring" value="VAR101"/>
+<entry key="101" type="xstring" value="VAR102"/>
+<entry key="102" type="xstring" value="VAR103"/>
+<entry key="103" type="xstring" value="VAR104"/>
+<entry key="104" type="xstring" value="VAR105"/>
+<entry key="105" type="xstring" value="VAR106"/>
+<entry key="106" type="xstring" value="VAR107"/>
+<entry key="107" type="xstring" value="VAR108"/>
+<entry key="108" type="xstring" value="VAR109"/>
+<entry key="109" type="xstring" value="VAR110"/>
+<entry key="110" type="xstring" value="VAR111"/>
+<entry key="111" type="xstring" value="VAR112"/>
+<entry key="112" type="xstring" value="VAR113"/>
+<entry key="113" type="xstring" value="VAR114"/>
+<entry key="114" type="xstring" value="VAR115"/>
+<entry key="115" type="xstring" value="VAR116"/>
+<entry key="116" type="xstring" value="VAR117"/>
+<entry key="117" type="xstring" value="VAR118"/>
+<entry key="118" type="xstring" value="VAR119"/>
+<entry key="119" type="xstring" value="VAR120"/>
+<entry key="120" type="xstring" value="VAR121"/>
+<entry key="121" type="xstring" value="VAR122"/>
+<entry key="122" type="xstring" value="VAR123"/>
+<entry key="123" type="xstring" value="VAR124"/>
+<entry key="124" type="xstring" value="VAR125"/>
+<entry key="125" type="xstring" value="VAR126"/>
+<entry key="126" type="xstring" value="VAR127"/>
+<entry key="127" type="xstring" value="VAR128"/>
+<entry key="128" type="xstring" value="VAR129"/>
+<entry key="129" type="xstring" value="VAR130"/>
+<entry key="130" type="xstring" value="VAR131"/>
+<entry key="131" type="xstring" value="VAR132"/>
+<entry key="132" type="xstring" value="VAR133"/>
+<entry key="133" type="xstring" value="VAR134"/>
+<entry key="134" type="xstring" value="VAR135"/>
+<entry key="135" type="xstring" value="VAR136"/>
+<entry key="136" type="xstring" value="VAR137"/>
+<entry key="137" type="xstring" value="VAR138"/>
+<entry key="138" type="xstring" value="VAR139"/>
+<entry key="139" type="xstring" value="VAR140"/>
+<entry key="140" type="xstring" value="VAR141"/>
+<entry key="141" type="xstring" value="VAR142"/>
+<entry key="142" type="xstring" value="VAR143"/>
+<entry key="143" type="xstring" value="VAR144"/>
+<entry key="144" type="xstring" value="VAR145"/>
+<entry key="145" type="xstring" value="VAR146"/>
+<entry key="146" type="xstring" value="VAR147"/>
+<entry key="147" type="xstring" value="VAR148"/>
+<entry key="148" type="xstring" value="VAR149"/>
+<entry key="149" type="xstring" value="VAR150"/>
+<entry key="150" type="xstring" value="VAR151"/>
+<entry key="151" type="xstring" value="VAR152"/>
+<entry key="152" type="xstring" value="VAR153"/>
+<entry key="153" type="xstring" value="VAR154"/>
+<entry key="154" type="xstring" value="VAR155"/>
+<entry key="155" type="xstring" value="VAR156"/>
+<entry key="156" type="xstring" value="VAR157"/>
+<entry key="157" type="xstring" value="VAR158"/>
+<entry key="158" type="xstring" value="VAR159"/>
+<entry key="159" type="xstring" value="VAR160"/>
+<entry key="160" type="xstring" value="VAR161"/>
+<entry key="161" type="xstring" value="VAR162"/>
+<entry key="162" type="xstring" value="VAR163"/>
+<entry key="163" type="xstring" value="VAR164"/>
+<entry key="164" type="xstring" value="VAR165"/>
+<entry key="165" type="xstring" value="VAR166"/>
+<entry key="166" type="xstring" value="VAR167"/>
+<entry key="167" type="xstring" value="VAR168"/>
+<entry key="168" type="xstring" value="VAR169"/>
+<entry key="169" type="xstring" value="VAR170"/>
+<entry key="170" type="xstring" value="VAR171"/>
+<entry key="171" type="xstring" value="VAR172"/>
+<entry key="172" type="xstring" value="VAR173"/>
+<entry key="173" type="xstring" value="VAR174"/>
+<entry key="174" type="xstring" value="VAR175"/>
+<entry key="175" type="xstring" value="VAR176"/>
+<entry key="176" type="xstring" value="VAR177"/>
+<entry key="177" type="xstring" value="VAR178"/>
+<entry key="178" type="xstring" value="VAR179"/>
+<entry key="179" type="xstring" value="VAR180"/>
+<entry key="180" type="xstring" value="VAR181"/>
+<entry key="181" type="xstring" value="VAR182"/>
+<entry key="182" type="xstring" value="VAR183"/>
+<entry key="183" type="xstring" value="VAR184"/>
+<entry key="184" type="xstring" value="VAR185"/>
+<entry key="185" type="xstring" value="VAR186"/>
+<entry key="186" type="xstring" value="VAR187"/>
+<entry key="187" type="xstring" value="VAR188"/>
+<entry key="188" type="xstring" value="VAR189"/>
+<entry key="189" type="xstring" value="VAR190"/>
+<entry key="190" type="xstring" value="VAR191"/>
+<entry key="191" type="xstring" value="VAR192"/>
+<entry key="192" type="xstring" value="VAR193"/>
+<entry key="193" type="xstring" value="VAR194"/>
+<entry key="194" type="xstring" value="VAR195"/>
+<entry key="195" type="xstring" value="VAR196"/>
+<entry key="196" type="xstring" value="VAR197"/>
+<entry key="197" type="xstring" value="VAR198"/>
+<entry key="198" type="xstring" value="VAR199"/>
+<entry key="199" type="xstring" value="VAR200"/>
+<entry key="200" type="xstring" value="VAR201"/>
+<entry key="201" type="xstring" value="VAR202"/>
+<entry key="202" type="xstring" value="VAR203"/>
+<entry key="203" type="xstring" value="VAR204"/>
+<entry key="204" type="xstring" value="VAR205"/>
+<entry key="205" type="xstring" value="VAR206"/>
+<entry key="206" type="xstring" value="VAR207"/>
+<entry key="207" type="xstring" value="VAR208"/>
+<entry key="208" type="xstring" value="VAR209"/>
+<entry key="209" type="xstring" value="VAR210"/>
+<entry key="210" type="xstring" value="VAR211"/>
+<entry key="211" type="xstring" value="VAR212"/>
+<entry key="212" type="xstring" value="VAR213"/>
+<entry key="213" type="xstring" value="VAR214"/>
+<entry key="214" type="xstring" value="VAR215"/>
+<entry key="215" type="xstring" value="VAR216"/>
+<entry key="216" type="xstring" value="VAR217"/>
+<entry key="217" type="xstring" value="VAR218"/>
+<entry key="218" type="xstring" value="VAR219"/>
+<entry key="219" type="xstring" value="VAR220"/>
+<entry key="220" type="xstring" value="VAR221"/>
+<entry key="221" type="xstring" value="VAR222"/>
+<entry key="222" type="xstring" value="VAR223"/>
+<entry key="223" type="xstring" value="VAR224"/>
+<entry key="224" type="xstring" value="VAR225"/>
+<entry key="225" type="xstring" value="VAR226"/>
+<entry key="226" type="xstring" value="VAR227"/>
+<entry key="227" type="xstring" value="VAR228"/>
+<entry key="228" type="xstring" value="VAR229"/>
+<entry key="229" type="xstring" value="VAR230"/>
+<entry key="230" type="xstring" value="APPEDENCY"/>
+<entry key="231" type="xstring" value="CHURN"/>
+<entry key="232" type="xstring" value="UPSELLING"/>
+</config>
+<config key="ExclList">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="ROWID"/>
+</config>
+<entry key="keep_all_columns_selected" type="xboolean" value="false"/>
+</config>
+</config>
+<entry key="customDescription" type="xstring" isnull="true" value=""/>
+<entry key="state" type="xstring" value="EXECUTED"/>
+<entry key="factory" type="xstring" value="org.knime.base.node.io.database.DBColumnFilterNodeFactory"/>
+<entry key="node-name" type="xstring" value="Database Column Filter"/>
+<entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>
+<entry key="node-bundle-symbolic-name" type="xstring" value="org.knime.base"/>
+<entry key="node-bundle-vendor" type="xstring" value="KNIME GmbH, Konstanz, Germany"/>
+<entry key="node-bundle-version" type="xstring" value="3.4.1.v201709070950"/>
+<entry key="node-feature-name" type="xstring" value="KNIME Core"/>
+<entry key="node-feature-symbolic-name" type="xstring" value="org.knime.features.base.feature.group"/>
+<entry key="node-feature-vendor" type="xstring" value="KNIME GmbH, Konstanz, Germany"/>
+<entry key="node-feature-version" type="xstring" value="3.4.1.v201709070950"/>
+<config key="factory_settings"/>
+<entry key="name" type="xstring" value="Database Column Filter"/>
+<entry key="hasContent" type="xboolean" value="false"/>
+<entry key="isInactive" type="xboolean" value="true"/>
+<config key="ports">
+<config key="port_1">
+<entry key="index" type="xint" value="1"/>
+<entry key="port_spec_class" type="xstring" value="org.knime.core.node.port.inactive.InactiveBranchPortObjectSpec"/>
+<entry key="port_object_class" type="xstring" value="org.knime.core.node.port.inactive.InactiveBranchPortObject"/>
+<entry key="port_object_summary" type="xstring" value="Inactive Port Object"/>
+<entry key="port_spec_location" type="xstring" value="spec/spec.zip"/>
+<entry key="port_object_location" type="xstring" value="object/portobject.zip"/>
+<entry key="port_dir_location" type="xstring" value="port_1"/>
+</config>
+</config>
+<config key="filestores">
+<entry key="file_store_location" type="xstring" isnull="true" value=""/>
+<entry key="file_store_id" type="xstring" value="74b92c9f-5f97-446e-bc42-5bbf526c7781"/>
+</config>
+</config>
