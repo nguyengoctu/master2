@@ -1,0 +1,190 @@
+data <- read.table("data1.txt", sep=",", header=T)
+class <- read.table("class1.txt", header=F)
+class <- class[,1]
+
+# séparation des données
+N <- 2000
+tmp <- sample(2,N, replace=T)
+train <- data[tmp==1,]
+class.train <- class[tmp==1]
+test <- data[tmp==2,]
+class.test <- class[tmp==2]
+
+# classeur LDA
+model.lda <- lda(train, class.train)
+pred.lda <- predict(model.lda, test)
+out.lda <- pred.lda$posterior[,"A"]
+
+#classeur QDA
+model.qda <- qda(train, class.train)
+pred.qda <- predict(model.qda, test)
+out.qda <- pred.lda$posterior[,"A"]
+
+#Classeur SVM
+model.svm <- svm(train,class.train,type="C")
+pred.svm <- predict(model.svm, test)
+
+# Calcul tx erreur, FPR, TPR
+tx.error <- 1-sum(pred.lda$class==class.test)/nrow(test)
+P <- sum(class.test=="A")
+TP <- sum(  (class.test=="A") & (pred.lda$class=="A")  )
+TPR <- TP / P
+N <- sum(class.test=="B")
+FP <- sum(  (class.test=="B") & (pred.lda$class=="A")  )
+FPR <- FP / N
+
+# courbe ROC
+list.T <- seq(0,1,0.01)
+TPR <- rep(NA,length(list.T))
+FPR <- rep(NA,length(list.T))
+for(t in 1:length(list.T))
+{
+    Th <- list.T[t]
+    pred <- rep(NA,length(nrow(test)))
+    for(i in 1:nrow(test))
+    {
+        if(out.qda[i]>Th) { pred[i] <- "A" }
+        else { pred[i] <- "B"  }
+    }
+    TP <- sum(  (class.test=="A") & (pred=="A")  )
+    TPR[t] <- TP/P
+    FP <- sum(  (class.test=="B") & (pred=="A")  )
+    FPR[t] <- FP/N
+}
+plot(FPR,TPR,type="b")
+
+# classeur avec rejet
+list.delta <- seq(0,0.49,0.01)
+err <- rep(NA,length(list.delta))
+reject <- rep(NA,length(list.delta))
+for(i in 1:length(list.delta))
+{
+  delta <- list.delta[i]
+  t1 <- 0.5+delta
+  t2 <- 0.5-delta
+  pred <- rep(NA,nrow(test))
+  for(j in 1:nrow(test))
+  {
+    if(out.lda[j]>t1) {pred[j]<-"A"}
+    if(out.lda[j]<t2) {pred[j]<-"B"}
+    if((out.lda[j]<=t1)&(out.lda[j]>=t2)) {pred[j]<-"R"}
+  }
+  reject[i] <- sum(pred=="R") / nrow(test)
+  pred.accept <- pred[!pred=="R"]
+  class.train.accept <- class.train[!pred=="R"]
+  err[i] <- sum(!pred.accept==class.train.accept)/length(pred.accept)
+}
+plot(reject,err,type="b")
+
+
+
+#Classeur SVM
+model <- svm(train,class.train,type="C",kernel="radial")
+pred <- predict(model, test)
+sum(pred==class.test)/length(class.test)
+
+#Classeur nnet
+tmp1 <- as.numeric(class.train=="A")
+tmp2 <- as.numeric(class.train=="B")
+tmp3 <- as.numeric(class.train=="C")
+class.train.nnet <- cbind(tmp1,tmp2,tmp3)
+colnames(class.train.nnet) <- c("A","B","C")
+model.nnet <- nnet(train, class.train.nnet, size=3, maxit=500)
+summary(model.nnet)
+pred <- predict(model.nnet,test)
+tmp <- apply(pred,1,which.max)
+prediction <- c("A","B","C")[tmp]
+sum(prediction==class.test)/length(class.test)
+
+#Optimisation des paramtres
+cost <- c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000)
+gamma <- c(0.00001, 0.00005, 0.0001, 0.0005, 0.001)
+result <- matrix(NA, nr=length(cost), nc=length(gamma))
+dimnames(result) <- list(cost,gamma)
+for(i in 1:length(cost))
+{
+  for(j in 1:length(gamma))
+  {
+    print(c(cost[i],gamma[j]))
+    model <- svm(train,class.train,type="C",kernel="radial", cost=cost[i], gamma=gamma[j])
+    pred <- predict(model, test)
+    result[i,j] <- 1-sum(pred==class.test)/length(class.test)
+  }
+}
+
+persp(result, theta=60)
+image(result)
+
+
+
+# Validation croisée avec selection de variables
+rownames(golub$data) <- paste("G",1:7129,sep="")
+K <- 3
+cross <- sample(K, 72, replace=T)
+err.lda <- rep(NA,K)
+err.svm <- rep(NA,K)
+for(i in 1:K)
+{  print(i)
+
+   test <- golub$data[,cross==i]
+   class.test <- golub$class[cross==i]
+   train <- golub$data[,!(cross==i)]
+   class.train <- golub$class[!(cross==i)]
+
+   score <- calcul.score(t(train),class.train)
+   names(score) <- rownames(golub$data)
+   selection <- names(sort(score,decreasing=T)[1:100])
+   train.select <- train[selection,]
+   test.select <- test[selection,]
+
+   model.lda <- lda(t(train.select),class.train)
+   pred.lda <- predict(model.lda,t(test.select))$class
+   err.lda[i] <- 1 - sum(pred.lda==class.test)/length(class.test)
+
+   model.svm <- svm(t(train.select), class.train, type="C")
+   pred.svm <- predict(model.svm,t(test.select))
+   err.svm[i] <- 1 - sum(pred.svm==class.test)/length(class.test)
+}
+
+ # Fonction de calcul des scores des variables
+calcul.score <- function(data,class)
+{
+    score <- rep(NA,ncol(data))
+    id.class <- unique(class)
+    for(i in 1:ncol(data))
+    {
+       m1 <- mean(data[class==id.class[1],i])
+       m2 <- mean(data[class==id.class[2],i])
+       sd1 <- sd(data[class==id.class[1],i])
+       sd2 <- sd(data[class==id.class[1],i])
+       score[i] <- abs(m1-m2)/(sd1+sd2)
+    }
+    score
+}
+
+
+
+
+
+
+
+
+###########################################################################################"""
+data1 <- cbind(rnorm(100,-1),rnorm(100,-1))
+data2 <- cbind(rnorm(100,1),rnorm(100,1))
+data3 <- cbind(rnorm(100,-1),rnorm(100,1))
+train <- (rbind(data1,data2,data3))
+class.train <- c(rep("A",100),rep("B",100),rep("C",100))
+plot(train[,1],train[,2],col=c(rep(2,100),rep(3,100),rep(4,100)),pc=19)
+
+data1 <- cbind(rnorm(1000,-1),rnorm(1000,-1))
+data2 <- cbind(rnorm(1000,1),rnorm(1000,1))
+data3 <- cbind(rnorm(1000,-1),rnorm(1000,1))
+test <- (rbind(data1,data2,data3))
+class.test <- c(rep("A",1000),rep("B",1000),rep("C",1000))
+
+sum(class.test==predict(lda(train,class.train),test)$class)/length(class.test)
+write.table(train,"train_TP34.txt",sep=";",col.names=F,row.names=F)
+write.table(test,"test_TP34.txt",sep=";",col.names=F,row.names=F)
+write.table(class.train,"class_train_TP34.txt",sep=";",col.names=F,row.names=F)
+write.table(class.test,"class_test_TP34.txt",sep=";",col.names=F,row.names=F)
