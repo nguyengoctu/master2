@@ -6,20 +6,20 @@
 <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
 </config>
 <config key="model">
-<entry key="selected_column" type="xstring" value="Col20"/>
-<entry key="is_nominal" type="xboolean" value="true"/>
-<config key="values">
-<entry key="array-size" type="xint" value="0"/>
-</config>
+<entry key="caseSensitive" type="xboolean" value="false"/>
+<entry key="colName" type="xstring" value="Cluster"/>
+<entry key="createNewCol" type="xboolean" value="false"/>
+<entry key="newColName" type="xstring" value="Enter column name"/>
+<entry key="pattern" type="xstring" value="cluster_"/>
+<entry key="replaceAllOccurences" type="xboolean" value="true"/>
+<entry key="replacement" type="xstring" value=""/>
+<entry key="enableEscaping" type="xboolean" value="false"/>
+<entry key="patternIsRegex" type="xboolean" value="false"/>
 </config>
 <entry key="customDescription" type="xstring" isnull="true" value=""/>
-<entry key="state" type="xstring" value="IDLE"/>
-<config key="nodecontainer_message">
-<entry key="type" type="xstring" value="WARNING"/>
-<entry key="message" type="xstring" value="No column selected and no categorical column available."/>
-</config>
-<entry key="factory" type="xstring" value="org.knime.base.node.viz.property.color.ColorManager2NodeFactory"/>
-<entry key="node-name" type="xstring" value="Color Manager"/>
+<entry key="state" type="xstring" value="CONFIGURED"/>
+<entry key="factory" type="xstring" value="org.knime.base.node.preproc.stringreplacer.StringReplacerNodeFactory"/>
+<entry key="node-name" type="xstring" value="String Replacer"/>
 <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>
 <entry key="node-bundle-symbolic-name" type="xstring" value="org.knime.base"/>
 <entry key="node-bundle-vendor" type="xstring" value="KNIME GmbH, Konstanz, Germany"/>
@@ -29,16 +29,12 @@
 <entry key="node-feature-vendor" type="xstring" value="KNIME GmbH, Konstanz, Germany"/>
 <entry key="node-feature-version" type="xstring" value="3.4.1.v201709070950"/>
 <config key="factory_settings"/>
-<entry key="name" type="xstring" value="Color Manager"/>
+<entry key="name" type="xstring" value="String Replacer"/>
 <entry key="hasContent" type="xboolean" value="false"/>
 <entry key="isInactive" type="xboolean" value="false"/>
 <config key="ports">
 <config key="port_1">
 <entry key="index" type="xint" value="1"/>
-<entry key="port_dir_location" type="xstring" isnull="true" value=""/>
-</config>
-<config key="port_2">
-<entry key="index" type="xint" value="2"/>
 <entry key="port_dir_location" type="xstring" isnull="true" value=""/>
 </config>
 </config>

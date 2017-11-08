@@ -14,34 +14,34 @@
             },
             {
                 "id":"org.knime.base.node.mine.pca.PCANodeFactory#PCA",
-                "nrexecs":6,
+                "nrexecs":10,
                 "nrfails":2,
-                "exectime":1445,
-                "nrcreated":3,
+                "exectime":3784,
+                "nrcreated":6,
                 "successor":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager"
             },
             {
                 "id":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager",
-                "nrexecs":20,
+                "nrexecs":25,
                 "nrfails":0,
-                "exectime":17,
-                "nrcreated":13,
+                "exectime":22,
+                "nrcreated":15,
                 "successor":"org.knime.base.node.viz.plotter.scatter.ScatterPlotterNodeFactory#Scatter Plot"
             },
             {
                 "id":"org.knime.base.node.viz.plotter.scatter.ScatterPlotterNodeFactory#Scatter Plot",
-                "nrexecs":18,
+                "nrexecs":22,
                 "nrfails":0,
-                "exectime":723,
-                "nrcreated":12,
+                "exectime":1470,
+                "nrcreated":14,
                 "successor":"n/a"
             },
             {
                 "id":"org.knime.base.node.mine.cluster.kmeans.ClusterNodeFactory2#k-Means",
-                "nrexecs":13,
+                "nrexecs":16,
                 "nrfails":0,
-                "exectime":1836,
-                "nrcreated":4,
+                "exectime":5809,
+                "nrcreated":5,
                 "successor":"org.knime.base.node.viz.property.color.ColorManager2NodeFactory#Color Manager"
             },
             {
@@ -62,11 +62,11 @@
             },
             {
                 "id":"org.knime.base.node.io.csvreader.CSVReaderNodeFactory#CSV Reader",
-                "nrexecs":4,
+                "nrexecs":5,
                 "nrfails":1,
-                "exectime":30953,
-                "nrcreated":4,
-                "successor":"org.knime.base.node.mine.pca.PCANodeFactory#PCA"
+                "exectime":31892,
+                "nrcreated":5,
+                "successor":"org.knime.base.node.mine.cluster.kmeans.ClusterNodeFactory2#k-Means"
             },
             {
                 "id":"org.knime.ext.poi2.node.read3.XLSReaderNodeFactory#Excel Reader (XLS)",
@@ -299,6 +299,38 @@
                 "exectime":62,
                 "nrcreated":1,
                 "successor":"n/a"
+            },
+            {
+                "id":"org.knime.ext.jfc.node.piechart.JfcPieChartNodeFactory#Pie Chart (JFreeChart)",
+                "nrexecs":0,
+                "nrfails":1,
+                "exectime":101,
+                "nrcreated":1,
+                "successor":"n/a"
+            },
+            {
+                "id":"org.knime.base.node.preproc.stringreplacer.StringReplacerNodeFactory#String Replacer",
+                "nrexecs":5,
+                "nrfails":0,
+                "exectime":311,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.preproc.colconvert.stringtonumber.StringToNumberNodeFactory#String To Number"
+            },
+            {
+                "id":"org.knime.base.node.preproc.colconvert.stringtonumber.StringToNumberNodeFactory#String To Number",
+                "nrexecs":8,
+                "nrfails":0,
+                "exectime":511,
+                "nrcreated":1,
+                "successor":"org.knime.base.node.mine.scorer.accuracy.AccuracyScorerNodeFactory#Scorer"
+            },
+            {
+                "id":"org.knime.base.node.mine.scorer.accuracy.AccuracyScorerNodeFactory#Scorer",
+                "nrexecs":3,
+                "nrfails":0,
+                "exectime":292,
+                "nrcreated":1,
+                "successor":"n/a"
             }
         ],
         "metaNodes":{
@@ -306,11 +338,11 @@
         "wrappedNodes":{
         }
     },
-    "uptime":4020278,
-    "workflowsOpened":2,
+    "uptime":3968573,
+    "workflowsOpened":3,
     "remoteWorkflowsOpened":5,
-    "launches":6,
-    "timeSinceLastStart":15345731,
+    "launches":7,
+    "timeSinceLastStart":3658345,
     "crashes":0,
     "properlyShutDown":true
 }
