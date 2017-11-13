@@ -1,4 +1,4 @@
-data = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
+sequence_imu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
 X = iris[, -5]
 X = matrix(sample.int(10, size = 5 * 3, replace = TRUE), nrow = 5, ncol = 3)
 X
@@ -68,22 +68,93 @@ clustfisher = function(X, K){
     label[i] = 1
   }
   
-  for (k in 2:(K - 1)){
-    for (i in t[k - 1]:(t[k] - 1)){
-      label[i] = k
+  if (K > 2){
+    for (k in 2:(K - 1)){
+      for (i in t[k - 1]:(t[k] - 1)){
+        label[i] = k
+      }
     }
   }
+  
   
   for (i in (t[K - 1]:n)){
     label[i] = K
   }
   
-  list('label' = label, 't' = t)
+  list('label' = label, 't' = t, 'inertie_intra' = M1[nrow(X), K])
 }
 
-X = data
-H_fisher = clustfisher(X, 4)
-index = c(1:nrow(X))
-plot(index, X$V1,type = 'l')
-X$V1
-H_fisher
+X = sequence_imu
+# H_fisher = clustfisher(X, 4)
+# index = c(1:nrow(X))
+# plot(index, X$V1)
+# X$V1
+# H_fisher$M1[nrow(X), 4]
+
+# Methode du coude (Elbow Method)
+inerties = c(1:10)
+for (K in 2:10){
+  clust_fisher = clustfisher(X, K)
+  inerties[K] = clust_fisher$inertie_intra
+}
+
+# Inertie total est le D(1, n)
+inerties[1] = diam(X, 1, nrow(X))
+inerties
+plot(inerties, xlab = 'Nombre de classes', ylab = 'Inertie intra-classes', main = 'Nombre optimal de classes', type = 'o')
+
+
+
+# Choisir K = 4
+K = 4
+clust_fisher_sequence_imu = clustfisher(X, K)
+clust_fisher_sequence_imu
+plot(X$V1, col = clust_fisher_sequence_imu$label)
+
+
+# Give a try with K-means
+clust_kmeans_sequence_imu = kmeans(X, 4)
+clust_kmeans_sequence_imu
+plot(X$V1, col = clust_kmeans_sequence_imu$cluster)
+
+# CAH-Ward
+distance = dist(X, method = 'euclidean')
+clust_CAH_Ward_sequence_imu = hclust(distance, method = 'ward.D2')
+clust_CAH_Ward_sequence_imu
+plot(clust_CAH_Ward_sequence_imu)
+classes = cutree(clust_CAH_Ward_sequence_imu, k = 4)
+plot(X$V1, col = classes)
+
+
+data = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
+summary(data)
+X = data[, -553]
+
+matplot(t(X), type = 'l', lty = 1, col = data[, 553])
+
+# Fisher
+inerties = c(1:10)
+for (K in 2:10){
+  clust_fisher = clustfisher(X, K)
+  inerties[K] = clust_fisher$inertie_intra
+}
+
+# Inertie total est le D(1, n)
+inerties[1] = diam(X, 1, nrow(X))
+inerties
+plot(inerties, xlab = 'Nombre de classes', ylab = 'Inertie intra-classes', main = 'Nombre optimal de classes', type = 'o')
+
+
+# Choisir K = 3
+K = 3
+clust_fisher_aquillage = clustfisher(X, K)
+matplot(t(X), type = 'l', lty = 1, col = clust_fisher_aquillage$label)
+
+
+clust_kmeans_aquillage = kmeans(X, K)
+matplot(t(X), type = 'l', lty = 1, col = clust_kmeans_aquillage$cluster)
+
+D = dist(X, method = 'euclidean')
+clust_CAH_Ward_aquillage = hclust(D, method = 'ward.D2') 
+classes = cutree(clust_CAH_Ward_aquillage, k = 3)
+matplot(t(X), type = 'l', lty = 1, col = classes)
