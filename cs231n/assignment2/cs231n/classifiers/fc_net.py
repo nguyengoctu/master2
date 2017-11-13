@@ -255,7 +255,7 @@ class FullyConnectedNet(object):
         # outs = []
         caches = []
         # outs.append(X)
-        out = X
+        out = X.copy()
         dropout_caches = []
 
         if not self.use_batchnorm:
