@@ -1,8 +1,3 @@
-sequence_imu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
-X = iris[, -5]
-X = matrix(sample.int(10, size = 5 * 3, replace = TRUE), nrow = 5, ncol = 3)
-X
-
 # distance function
 diam = function(X, a, b){
   if (a == b) {
@@ -28,7 +23,7 @@ clustfisher = function(X, K){
   M1 = matrix(NA, nrow = n, ncol = n)
   M2 = matrix(NA, nrow = n, ncol = n)
   t = rep(NA, K - 1)
-  label = rep(NA, K)
+  cluster = rep(NA, K)
   
   # Etape 1: calcul de la matrice triangulaire superieure des diametres
   for (a in 1:n){
@@ -65,24 +60,29 @@ clustfisher = function(X, K){
   
   # Etape 4: labels des classes formes a partir des instants de changement
   for (i in 1:(t[1] - 1)){
-    label[i] = 1
+    cluster[i] = 1
   }
   
   if (K > 2){
     for (k in 2:(K - 1)){
       for (i in t[k - 1]:(t[k] - 1)){
-        label[i] = k
+        cluster[i] = k
       }
     }
   }
   
   
   for (i in (t[K - 1]:n)){
-    label[i] = K
+    cluster[i] = K
   }
   
-  list('label' = label, 't' = t, 'inertie_intra' = M1[nrow(X), K])
+  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[nrow(X), K], 'totss' = D[1, n])
 }
+
+sequence_imu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
+X = iris[, -5]
+X = matrix(sample.int(10, size = 5 * 3, replace = TRUE), nrow = 5, ncol = 3)
+
 
 X = sequence_imu
 # H_fisher = clustfisher(X, 4)
@@ -152,9 +152,70 @@ matplot(t(X), type = 'l', lty = 1, col = clust_fisher_aquillage$label)
 
 
 clust_kmeans_aquillage = kmeans(X, K)
-matplot(t(X), type = 'l', lty = 1, col = clust_kmeans_aquillage$cluster)
+matplot(t(aquillage), type = 'l', lty = 1, col = clust_kmeans_aquillage$cluster)
 
 D = dist(X, method = 'euclidean')
 clust_CAH_Ward_aquillage = hclust(D, method = 'ward.D2') 
 classes = cutree(clust_CAH_Ward_aquillage, k = 3)
-matplot(t(X), type = 'l', lty = 1, col = classes)
+matplot(t(aquillage), type = 'l', lty = 1, col = classes)
+
+
+clustering = function(X){
+  # Methode du coude
+  inerties_totales_intra_classes = rep(NA, 10)
+  #clusts_fisher = rep(NA, 10)
+  inerties_totales_intra_classes[1] = diam(X, 1, nrow(X))
+  cat("Calculer inertie totale intra-classes...\n")
+  for (K in 2:10){
+    clust_fisher = clustfisher(X, K)
+    cat("Avec K =", K, "...\n")
+    inerties_totales_intra_classes[K] = clust_fisher$tot.withinss
+  }
+  
+  plot(inerties_totales_intra_classes, 
+       xlab = 'Nombre de classes', 
+       ylab = 'Inertie intra-classes', 
+       main = 'Nombre optimal de classes', 
+       type = 'o')
+  
+  # Choisir K
+  K = 0
+  while (T){
+    K = as.numeric(readline(prompt = 'K = '))
+    if (K < 2){
+      cat('K invalid, repetez svp')
+    }
+    else{
+      break
+    }
+  }
+  clust_fisher = clustfisher(X, K)
+  cat('fisher clustering...done\n')
+  clust_kmeans = kmeans(X, K)
+  cat('kmeans clustering...done\n')
+  D = dist(X, method = 'euclidean')
+  clust_cah_ward = hclust(D, method = 'ward.D2')
+  cat('CAH-Ward clustering...done\n')
+  list('clust_fisher' = clust_fisher, 'clust_kmeans' = clust_kmeans, 'clust_cah_ward' = clust_cah_ward, 'K' = K)
+}
+
+sequenceimu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
+sequenceimu_clustering = clustering(sequenceimu)
+
+par(mfrow = c(2, 2))
+plot(sequenceimu$V1, main = 'Jeu des donnees: sequenceimu')
+plot(sequenceimu$V1, main = 'Fisher clustering', col = sequenceimu_clustering$clust_fisher$cluster)
+plot(sequenceimu$V1, main = 'K means clustering', col = sequenceimu_clustering$clust_kmeans$cluster)
+plot(sequenceimu$V1, main = 'CAH Ward clustering', col = cutree(sequenceimu_clustering$clust_cah_ward, k = 4))
+
+
+aquillage = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
+aquillage_label = aquillage[, 553]
+aquillage = aquillage[, 1:552]
+
+aquillage_clustering = clustering(aquillage)
+par(mfrow = c(2, 2))
+matplot(t(aquillage), main = 'Jeu des donnees: aquillage', type = 'l', lty = 1, col = aquillage_label)
+matplot(t(aquillage), main = 'Fisher clustering', type = 'l', lty = 1, col = aquillage_clustering$clust_fisher$cluster)
+matplot(t(aquillage), main = 'K means clustering', type = 'l', lty = 1, col = aquillage_clustering$clust_kmeans$cluster)
+matplot(t(aquillage), main = 'CAH Ward clustering', type = 'l', lty = 1, col = cutree(aquillage_clustering$clust_cah_ward, k = 3))
