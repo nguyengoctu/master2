@@ -8,10 +8,19 @@ diam = function(X, a, b){
   }
 }
 
-
+distance = function(X){
+  n = nrow(X)
+  D = matrix(NA, nrow = n, ncol = n)
+  for (a in 1:n){
+    for (b in a:n){
+      D[a, b] = diam(X, a, b)
+    }
+  }
+  D
+}
 
 # Fisher Clustering
-clustfisher = function(X, K){
+clustfisher = function(D, K){
   # X: donnee
   # K: nombre de segments souhaite
   
@@ -20,19 +29,19 @@ clustfisher = function(X, K){
   
   # D: matrice taille n x n (triangulaire superieure)
 
-  n = nrow(X)
-  D = matrix(NA, nrow = n, ncol = n)
+  n = nrow(D)
+  # D = matrix(NA, nrow = n, ncol = n)
   M1 = matrix(NA, nrow = n, ncol = n)
   M2 = matrix(NA, nrow = n, ncol = n)
   t = rep(NA, K - 1)
   cluster = rep(NA, K)
   
   # Etape 1: calcul de la matrice triangulaire superieure des diametres
-  for (a in 1:n){
-    for (b in a:n){
-      D[a, b] = diam(X, a, b)
-    }
-  }
+  # for (a in 1:n){
+  #   for (b in a:n){
+  #     D[a, b] = diam(X, a, b)
+  #   }
+  # }
   
   
   # Etape 2: calcul recursif des criteres optimaux
@@ -78,27 +87,29 @@ clustfisher = function(X, K){
     cluster[i] = K
   }
   
-  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[nrow(X), K], 'totss' = D[1, n])
+  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K], 'totss' = D[1, n])
 }
 
 clustering = function(X){
   # Methode du coude
   inerties_totales_intra_classes = rep(NA, 10)
   #clusts_fisher = rep(NA, 10)
+  D = distance(X)
+  n = nrow(X)
+  inerties_totales_intra_classes[1] = D[1, n]
+  cat("Calculer inertie totale intra-classes...\n")
   
-  # inerties_totales_intra_classes[1] = diam(X, 1, nrow(X))
-  # cat("Calculer inertie totale intra-classes...\n")
-  # for (K in 2:10){
-  #   clust_fisher = clustfisher(X, K)
-  #   cat("Avec K =", K, "...\n")
-  #   inerties_totales_intra_classes[K] = clust_fisher$tot.withinss
-  # }
-  # 
-  # plot(inerties_totales_intra_classes, 
-  #      xlab = 'Nombre de classes', 
-  #      ylab = 'Inertie intra-classes', 
-  #      main = 'Nombre optimal de classes', 
-  #      type = 'o')
+  for (K in 2:10){
+    cat("Avec K =", K, "...\n")
+    clust_fisher = clustfisher(D, K)
+    inerties_totales_intra_classes[K] = clust_fisher$tot.withinss
+  }
+
+  plot(inerties_totales_intra_classes,
+       xlab = 'Nombre de classes',
+       ylab = 'Inertie intra-classes',
+       main = 'Nombre optimal de classes',
+       type = 'o')
   
   # Choisir K
   K = 1
@@ -111,7 +122,7 @@ clustering = function(X){
       break
     }
   }
-  clust_fisher = clustfisher(X, K)
+  clust_fisher = clustfisher(D, K)
   cat('fisher clustering...done\n')
   clust_kmeans = kmeans(X, K)
   cat('kmeans clustering...done\n')
