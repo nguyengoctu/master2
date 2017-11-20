@@ -87,41 +87,45 @@ clustfisher = function(D, K){
     cluster[i] = K
   }
   
-  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K], 'totss' = D[1, n])
+  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K])
 }
 
-clustering = function(X){
-  # Methode du coude
-  inerties_totales_intra_classes = rep(NA, 10)
+clustering = function(X, K){
+  
   #clusts_fisher = rep(NA, 10)
   D = distance(X)
   n = nrow(X)
-  inerties_totales_intra_classes[1] = D[1, n]
-  cat("Calculer inertie totale intra-classes...\n")
-  
-  for (K in 2:10){
-    cat("Avec K =", K, "...\n")
-    clust_fisher = clustfisher(D, K)
-    inerties_totales_intra_classes[K] = clust_fisher$tot.withinss
-  }
-
-  plot(inerties_totales_intra_classes,
-       xlab = 'Nombre de classes',
-       ylab = 'Inertie intra-classes',
-       main = 'Nombre optimal de classes',
-       type = 'o')
-  
-  # Choisir K
-  K = 1
-  while (T){
-    K = as.numeric(readline(prompt = 'K = '))
-    if (K < 2){
-      cat('K invalid, repetez svp')
+    
+  if (missing(K)){
+    cat("Calculer inertie totale intra-classes pour la methode du coude...\n")
+    inerties_totales_intra_classes = rep(NA, 10)
+    inerties_totales_intra_classes[1] = D[1, n]
+    
+    for (K in 2:10){
+      cat("avec K =", K, "...\n")
+      clust_fisher = clustfisher(D, K)
+      inerties_totales_intra_classes[K] = clust_fisher$tot.withinss
     }
-    else{
-      break
+  
+    plot(inerties_totales_intra_classes,
+         xlab = 'Nombre de classes',
+         ylab = 'Inertie totale intra-classes',
+         main = 'Méthode du coude',
+         type = 'o')
+    
+    # Choisir K
+    K = 1
+    while (T){
+      K = as.numeric(readline(prompt = 'K = '))
+      if (K < 2){
+        cat('K invalid, repetez svp')
+      }
+      else{
+        break
+      }
     }
   }
+  
   clust_fisher = clustfisher(D, K)
   cat('fisher clustering...done\n')
   clust_kmeans = kmeans(X, K)
@@ -132,28 +136,42 @@ clustering = function(X){
   list('clust_fisher' = clust_fisher, 'clust_kmeans' = clust_kmeans, 'clust_cah_ward' = clust_cah_ward, 'K' = K)
 }
 
-sequenceimu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
-sequenceimu_clustering = clustering(sequenceimu)
+# Jeu de donnees simulees: sequencesimu
+sequencesimu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
+summary(sequencesimu)
+boxplot(sequencesimu)
 
-boxplot(sequenceimu)
+sequencesimu_clustering = clustering(sequencesimu)
 
 par(mfrow = c(2, 2))
-plot(sequenceimu$V1, main = 'Jeu des donnees: sequenceimu')
-plot(sequenceimu$V1, main = 'Fisher clustering', col = sequenceimu_clustering$clust_fisher$cluster)
-plot(sequenceimu$V1, main = 'K means clustering', col = sequenceimu_clustering$clust_kmeans$cluster)
-plot(sequenceimu$V1, main = 'CAH Ward clustering', col = cutree(sequenceimu_clustering$clust_cah_ward, k = sequenceimu_clustering$K))
+plot(sequencesimu$V1, main = 'Jeu de données: sequencesimu', ylab = 'X')
+plot(sequencesimu$V1, main = 'Fisher clustering', col = sequencesimu_clustering$clust_fisher$cluster, ylab = 'X')
+plot(sequencesimu$V1, main = 'K-means clustering', col = sequencesimu_clustering$clust_kmeans$cluster, ylab = 'X')
+plot(sequencesimu$V1, main = 'CAH-Ward clustering', col = cutree(sequencesimu_clustering$clust_cah_ward, k = sequencesimu_clustering$K), ylab = 'X')
 
 
-aquillage = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
-aquillage_label = aquillage[, 553]
-aquillage = aquillage[, -553]
+# Jeu de donnees reelles: aiquillage
+aiquillage = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
+aiquillage_label = aiquillage[, 553]
+aiquillage = aiquillage[, -553]
 
-aquillage_clustering = clustering(aquillage)
+summary(aiquillage)
+
+start_time = Sys.time()
+aiquillage_clustering = clustering(aiquillage, K = 4)
+end_time = Sys.time()
+cat('Total running time:', end_time - start_time, 'minutes.\n')
+
 par(mfrow = c(2, 2))
-matplot(t(aquillage), main = 'Jeu des donnees: aquillage', type = 'l', lty = 1, col = aquillage_label)
-matplot(t(aquillage), main = 'Fisher clustering', type = 'l', lty = 1, col = aquillage_clustering$clust_fisher$cluster)
-matplot(t(aquillage), main = 'K means clustering', type = 'l', lty = 1, col = aquillage_clustering$clust_kmeans$cluster)
-matplot(t(aquillage), main = 'CAH Ward clustering', type = 'l', lty = 1, col = cutree(aquillage_clustering$clust_cah_ward, k = aquillage_clustering$K))
+matplot(t(aiquillage), main = 'Jeu de données: aiquillage', type = 'l', lty = 1, col = aiquillage_label, xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiquillage), main = 'Fisher clustering', type = 'l', lty = 1, col = aiquillage_clustering$clust_fisher$cluster, xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiquillage), main = 'K-means clustering', type = 'l', lty = 1, col = aiquillage_clustering$clust_kmeans$cluster, xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiquillage), main = 'CAH-Ward clustering', type = 'l', lty = 1, col = cutree(aiquillage_clustering$clust_cah_ward, k = aiquillage_clustering$K), xlab = 'time', ylab = 'Power (Watts)')
 
-KM = kmeans(aquillage, 3)
-matplot(t(aquillage), main = 'CAH Ward clustering', type = 'l', lty = 1, col = KM$cluster)
+
+# Re-classifier plusieur fois avec K-means
+par(mfrow = c(2, 2))
+for (i in 1:4){
+  KM = kmeans(aiquillage, 4)
+  matplot(t(aiquillage), type = 'l', lty = 1, col = KM$cluster, xlab = 'time', ylab = 'Power (Watts)')
+}
