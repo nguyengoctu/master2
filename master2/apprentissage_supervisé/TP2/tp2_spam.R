@@ -18,8 +18,9 @@ boxplot(spam)
 # bivariée
 library(lattice) 
 g = spam[, 58]
-splom(~spam[,1:3], groups=g) 
 
+pairs(spam[, 55:57], col = as.numeric(g))
+pairs(spam[,49:54], col=as.numeric(g))
 # 3. Réaliser une étude comparative des méthodes de classification suivantes: 
 # régression linéaire, k plus proches voisins et le classifieur bayésien naïf 
 # sur le jeu de données spam. 

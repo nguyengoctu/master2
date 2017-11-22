@@ -31,11 +31,10 @@ clustfisher = function(D, K){
 
   n = nrow(D)
   # D = matrix(NA, nrow = n, ncol = n)
-
   M1 = matrix(NA, nrow = n, ncol = n)
   M2 = matrix(NA, nrow = n, ncol = n)
   t = rep(NA, K - 1)
-  cluster = rep(NA, n)
+  cluster = rep(NA, K)
   
   # Etape 1: calcul de la matrice triangulaire superieure des diametres
   # for (a in 1:n){
@@ -98,7 +97,7 @@ clustering = function(X, K){
   n = nrow(X)
     
   if (missing(K)){
-    cat("Calculer inertie intra-classes pour la methode du coude...\n")
+    cat("Calculer inertie totale intra-classes pour la methode du coude...\n")
     inerties_totales_intra_classes = rep(NA, 10)
     inerties_totales_intra_classes[1] = D[1, n]
     
@@ -110,7 +109,7 @@ clustering = function(X, K){
   
     plot(inerties_totales_intra_classes,
          xlab = 'Nombre de classes',
-         ylab = 'Inertie intra-classes',
+         ylab = 'Inertie totale intra-classes',
          main = 'Méthode du coude',
          type = 'o')
     
@@ -138,7 +137,7 @@ clustering = function(X, K){
 }
 
 # Jeu de donnees simulees: sequencesimu
-sequencesimu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
+sequencesimu = read.table('/media/ngoctu/769829E69829A599/workspace/master2/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
 summary(sequencesimu)
 boxplot(sequencesimu)
 
@@ -152,7 +151,7 @@ plot(sequencesimu$V1, main = 'CAH-Ward clustering', col = cutree(sequencesimu_cl
 
 
 # Jeu de donnees reelles: aiquillage
-aiquillage = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
+aiquillage = read.table('/media/ngoctu/769829E69829A599/workspace/master2/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
 aiquillage_label = aiquillage[, 553]
 aiquillage = aiquillage[, -553]
 
@@ -173,3 +172,4 @@ for (i in 1:4){
   KM = kmeans(aiquillage, 4)
   matplot(t(aiquillage), type = 'l', lty = 1, col = KM$cluster, xlab = 'time', ylab = 'Power (Watts)')
 }
+
