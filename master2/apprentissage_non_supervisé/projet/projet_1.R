@@ -35,7 +35,7 @@ clustfisher = function(D, K){
   M1 = matrix(NA, nrow = n, ncol = n)
   M2 = matrix(NA, nrow = n, ncol = n)
   t = rep(NA, K - 1)
-  cluster = rep(NA, K)
+  cluster = rep(NA, n)
   
   # Etape 1: calcul de la matrice triangulaire superieure des diametres
   # for (a in 1:n){
@@ -88,7 +88,7 @@ clustfisher = function(D, K){
     cluster[i] = K
   }
   
-  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K], 'M2' = M2)
+  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K])
 }
 
 clustering = function(X, K){
