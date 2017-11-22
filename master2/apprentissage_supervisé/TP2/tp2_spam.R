@@ -1,50 +1,46 @@
-# 2.1 Description des données prostate.
-# A. Charger le jeu de données dans R, décrire le jeu de données prostate 
-# Description de la table prostate 
-library(ElemStatLearn)
-data(prostate) 
+# 3. Données Spam 
+# Le jeu de données SPAM est une base de données e-mail, 
+# avec 4601 observations et 58 variables descriptives. 
 
-# Information sur la table prostate 
-?prostate 
+# 1. Obtenir une description de la table spam 
+# (utiliser le package{kernlab} pour récupérer le jeu de données) 
+library(kernlab)
+data("spam")
+?spam
+attach(spam)
 
-# attacher la table prostate 
-attach(prostate) 
+# 2. Effectuer une première analyse statistique univariée et bivariée de la table spam 
+# statistique descriptive
+# univariée
+summary(spam)
+boxplot(spam)
 
-# Binariser la réponse lpsa ; high si lpsa > median(lpsa) et 0 sinon 
-g <- factor(ifelse(lpsa > median(lpsa), "high", "low")) 
-
-# utiliser les 3 variables explicatives lcavol, lweight and age 
-# pour modéliser les classes g et tracer le nuage des points 
-# de ces trois variables en indiquant les classes 
+# bivariée
 library(lattice) 
-splom(~prostate[,1:3], groups=g) 
+g = spam[, 58]
+splom(~spam[,1:3], groups=g) 
 
-# Ou utiliser la fonction pairs 
-pairs(prostate[,1:3], col=as.numeric(g))
+# 3. Réaliser une étude comparative des méthodes de classification suivantes: 
+# régression linéaire, k plus proches voisins et le classifieur bayésien naïf 
+# sur le jeu de données spam. 
 
 
-# 2.2 Régression linéaire 
+# Régression linéaire 
 # B. Pourquoi la régression linéaire n'est pas adaptée!? 
 # régression linéaire sur une variable indicatrice (binaire) 
-y <- ifelse(g=="high", 1, 0) 
+y <- ifelse(g=="spam", 1, 0) 
 
 # Calculer la régression linéaire 
-lm.fit <- lm(y~lcavol+lweight+age) 
+lm.fit <- lm(y~., data = spam[, 1:57]) 
 
 # coefficients de régression
 lm.beta <- lm.fit$coef 
-
-# tracer le modèle estimé lcavol et age pour lweight moyen 
-b <- -lm.beta[2]/lm.beta[4] 
-a <- (0.5 - lm.beta[1] - lm.beta[3]*mean(lweight))/lm.beta[4] 
-plot(lcavol, age, col=g) 
-abline(a,b) 
 
 # prédiction de y 
 yhat <- predict(lm.fit) 
 
 # prediction de la classe g 
-lm.ghat <- factor(ifelse(yhat > 0.5, "high", "low")) 
+lm.ghat <- factor(ifelse(yhat > 0.5, "spam", "nonspam")) 
 
 # nombre d'exemples mal classés 
 sum(lm.ghat != g) 
@@ -56,15 +52,15 @@ mean(lm.ghat != g)
 table(lm.ghat, g)
 
 
-# 2.3 KNN 
-# C. On s’intéresse d’abord à la méthodologie du choix de k 
+# KNN 
+# On s’intéresse d’abord à la méthodologie du choix de k 
 # (1) Créer un jeu de données de données d’apprentissage (75% des données) 
 # et un jeu de données test (25% des données) avec le code suivant. 
 set.seed(30) 
-X=cbind(g, lcavol,lweight,age) 
-tr <- sample(1:nrow(X),72) 
-Xtrain <- X[tr,]
-Xtest <- X[-tr,] 
+num_train = as.integer(nrow(spam) * 0.75)
+tr <- sample(1:nrow(spam), num_train) 
+Xtrain <- spam[tr,]
+Xtest <- spam[-tr,] 
 
 # (2) Calculer les taux d’erreur sur les données test pour k variant de 1 à 100. 
 # Avec la fonction plot, représenter ce taux d’erreur test en fonction de k 
@@ -74,8 +70,8 @@ library(class)
 kmax=100 
 err_test <- rep(NA,kmax) 
 for (k in 1:kmax) { 
-  pred <- knn(Xtrain[,-1], Xtest[,-1], Xtrain[,1], k) # knn(train, test, train_label, k)
-  err_test[k] <- sum(pred!=Xtest[,1])/length(Xtest[,1]) 
+  pred <- knn(Xtrain[,-58], Xtest[,-58], Xtrain[, 58], k) # knn(train, test, train_label, k)
+  err_test[k] <- sum(pred!=Xtest[, 58])/length(Xtest[, 58]) 
 } 
 lim <- c(0,max(err_test)) 
 plot(err_test,type="l",ylim=lim,col=2,xlab="nombre de voisins", 
@@ -87,12 +83,12 @@ which.min(err_test)
 # et représenter la courbe d’évolution du taux d’erreur test sur le même graphique 
 # qu’à la question précédente.
 set.seed(10) 
-tr <- sample(1:nrow(X),90) 
-train <- X[tr,] 
-test <- X[-tr,] 
+tr <- sample(1:nrow(spam), num_train) 
+train <- spam[tr,] 
+test <- spam[-tr,] 
 for (k in 1:kmax) { 
-  pred <- knn(Xtrain[,-1],Xtest[,-1], Xtrain [,1],k) 
-  err_test[k] <- sum(pred!=Xtest[,1])/length(Xtest[,1])
+  pred <- knn(Xtrain[,-58],Xtest[,-58], Xtrain [,58],k) 
+  err_test[k] <- sum(pred!=Xtest[,58])/length(Xtest[,58])
 } 
 points(err_test,type="l",col=4) 
 legend("bottomright", legend=c("decoupage 1", "decoupage 2"), lty=1, col=c(2,4))
@@ -104,13 +100,13 @@ B<- 20
 kmax <- 100 
 err_test <- matrix(NA,kmax,B) 
 for (b in 1:B) { 
-  tr <- sample(1:nrow(X),90) 
-  Xtrain <- X[tr,] 
-  Xtest <- X[-tr,] 
+  tr <- sample(1:nrow(spam),num_train) 
+  Xtrain <- spam[tr,] 
+  Xtest <- spam[-tr,] 
   for (k in 1:kmax) 
   { 
-    pred <- knn(Xtrain[,-1],Xtest[,-1], Xtrain [,1],k) 
-    err_test[k,b] <- sum(pred!= Xtest[,1])/length(Xtest[,1]) 
+    pred <- knn(Xtrain[,-58],Xtest[,-58], Xtrain [,58],k) 
+    err_test[k,b] <- sum(pred!= Xtest[,58])/length(Xtest[,58]) 
   }
 } 
 mean_err_test <- apply(err_test,1,mean) 
@@ -126,8 +122,8 @@ legend("bottomright", legend=c("Erreur moyenne", "Erreurs conditionnelles"),
 ?knn.cv  # Default: leave-one-out
 err_test <- rep(NA,kmax) 
 for (k in 1:kmax) { 
-  pred <- knn.cv(X[,-1], X[,1],k) 
-  err_test[k] <- sum(pred!= X[,1])/length(X[,1]) 
+  pred <- knn.cv(spam[,-58], spam[,58],k) 
+  err_test[k] <- sum(pred!= spam[,58])/length(spam[,58]) 
 } 
 lim <-c(0,max(err_test)) 
 plot(err_test,type="l",col=2,ylim=lim,xlab="nombre de voisins", ylab="taux d'erreur") 
@@ -222,6 +218,3 @@ m <- naiveBayes(g ~ ., data = prostate.d)
 m <- naiveBayes(prostate.d, g) 
 m 
 table(predict(m, prostate.d), g) 
-
-
-

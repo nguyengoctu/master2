@@ -31,6 +31,7 @@ clustfisher = function(D, K){
 
   n = nrow(D)
   # D = matrix(NA, nrow = n, ncol = n)
+
   M1 = matrix(NA, nrow = n, ncol = n)
   M2 = matrix(NA, nrow = n, ncol = n)
   t = rep(NA, K - 1)
@@ -87,7 +88,7 @@ clustfisher = function(D, K){
     cluster[i] = K
   }
   
-  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K])
+  list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K], 'M2' = M2)
 }
 
 clustering = function(X, K){
