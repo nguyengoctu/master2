@@ -99,16 +99,16 @@ clustering = function(X, K){
     
   if (missing(K)){
     cat("Calculer inertie intra-classes pour la methode du coude...\n")
-    inerties_totales_intra_classes = rep(NA, 10)
-    inerties_totales_intra_classes[1] = D[1, n]
+    inerties_intra_classes = rep(NA, 10)
+    inerties_intra_classes[1] = D[1, n]
     
     for (K in 2:10){
       cat("avec K =", K, "...\n")
       clust_fisher = clustfisher(D, K)
-      inerties_totales_intra_classes[K] = clust_fisher$tot.withinss
+      inerties_intra_classes[K] = clust_fisher$tot.withinss
     }
   
-    plot(inerties_totales_intra_classes,
+    plot(inerties_intra_classes,
          xlab = 'Nombre de classes',
          ylab = 'Inertie intra-classes',
          main = 'Méthode du coude',
@@ -173,3 +173,6 @@ for (i in 1:4){
   KM = kmeans(aiquillage, 4)
   matplot(t(aiquillage), type = 'l', lty = 1, col = KM$cluster, xlab = 'time', ylab = 'Power (Watts)')
 }
+
+# Evaluer temps d'execution
+system.time(clustering(aiquillage, 4))
