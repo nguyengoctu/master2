@@ -1,5 +1,14 @@
-# distance function
 diam = function(X, a, b){
+  # Cette fonction calcule le diamètre
+  #
+  # Inputs :
+  # - X : matrice de données, avec la taille : 𝑛 lignes, 𝑝 colonnes.
+  # - a : nombre entier
+  # - b : nombre entier (b >= a)
+  # 
+  # Outputs :
+  #   - Valeur réelle calculée selon la formule donné
+  
   if (a == b) {
     0
   }
@@ -8,7 +17,16 @@ diam = function(X, a, b){
   }
 }
 
-distance = function(X){
+
+diam_matrice = function(X){
+  # Cette fonction calcule la matrice des diamètres des classes (Etape 0)
+  # 
+  # Inputs :
+  #   - X : matrice de données
+  # 
+  # Outputs :
+  #   - Matrice de diamètres des classes
+  
   n = nrow(X)
   D = matrix(NA, nrow = n, ncol = n)
   for (a in 1:n){
@@ -19,15 +37,19 @@ distance = function(X){
   D
 }
 
-# Fisher Clustering
+
 clustfisher = function(D, K){
-  # X: donnee
-  # K: nombre de segments souhaite
-  
-  # Etape 0: Initialiser les matrices D, M1, M2, ainsi que le vecteur t des instants de changement
-  # et le vecteur des classes (sous R, on pourra utiliser des matrices et des vecteurs nuls)
-  
-  # D: matrice taille n x n (triangulaire superieure)
+  # Cette fonction utilise l’algorithme de programmation dynamique de Fisher 
+  # pour classifier des données représentées par la matrice des diamètres des classes D en K classes.
+  # 
+  # Inputs :
+  # - D : matrice des diamètres des classes
+  # - K : nombre de classes
+  # 
+  # Outputs :
+  # - cluster : vecteur des labels des individus
+  # - t : vecteur des instants de changement
+  # - tot.withinss : valeur d’inertie intra-classes
 
   n = nrow(D)
   # D = matrix(NA, nrow = n, ncol = n)
@@ -37,7 +59,7 @@ clustfisher = function(D, K){
   t = rep(NA, K - 1)
   cluster = rep(NA, n)
   
-  # Etape 1: calcul de la matrice triangulaire superieure des diametres
+  # Etape 1: calcul de la matrice triangulaire supérieure des diamètres
   # for (a in 1:n){
   #   for (b in a:n){
   #     D[a, b] = diam(X, a, b)
@@ -45,7 +67,7 @@ clustfisher = function(D, K){
   # }
   
   
-  # Etape 2: calcul recursif des criteres optimaux
+  # Etape 2: calcul récursif des critères optimaux
   for (i in 1:n){
     M1[i, 1] = D[1, i]
   }
@@ -60,7 +82,7 @@ clustfisher = function(D, K){
   }
   
   
-  # Etape 3: Calcul recursif des instants de changement optimaux
+  # Etape 3: Calcul récursif des instants de changement optimaux
   k = K - 1
   m = n
   while (k >= 1){
@@ -70,7 +92,7 @@ clustfisher = function(D, K){
   }
   
   
-  # Etape 4: labels des classes formes a partir des instants de changement
+  # Etape 4: labels des classes formés à partir des instants de changement
   for (i in 1:(t[1] - 1)){
     cluster[i] = 1
   }
@@ -91,14 +113,31 @@ clustfisher = function(D, K){
   list('cluster' = cluster, 't' = t, 'tot.withinss' = M1[n, K])
 }
 
+
 clustering = function(X, K){
+  # L’objectif de cette fonction est de résoudre les questions 2) et 3). 
+  # Car il y a deux jeux des données à travailler, je l’ai implémenté 
+  # pour éviter le redoublement du code. Cette fonction va prendre les données X 
+  # et les classifier en K classes, en utilisant trois algorithmes de classification : 
+  # Fisher, K-means et CAH-Ward.
+  # 
+  # Inputs :
+  # - X : matrice des données
+  # - K : nombre de classes voulu. Si K se présente, cette fonction va classifier X en K classes. 
+  # Si non, elle va classifier X plusieurs fois avec le K varie (en utilisant l’algorithme Fisher). 
+  # Ensuite, elle va montrer un graphe des inerties intra-classes et vous laisser choisir K manuellement.
+  # 
+  # Outputs :
+  # - clust_fisher : résultat obtenu avec l’algorithme de programmation dynamique de Fisher
+  # - clust_kmeans : résultat obtenu avec l’algorithme K-means
+  # - clust_cah_ward : résultat obtenu avec l’algorithme CAH-Ward
   
   #clusts_fisher = rep(NA, 10)
   D = distance(X)
   n = nrow(X)
     
   if (missing(K)){
-    cat("Calculer inertie intra-classes pour la methode du coude...\n")
+    cat("Calcul d'inertie intra-classe pour la méthode du coude...\n")
     inerties_intra_classes = rep(NA, 10)
     inerties_intra_classes[1] = D[1, n]
     
@@ -119,7 +158,7 @@ clustering = function(X, K){
     while (T){
       K = as.numeric(readline(prompt = 'K = '))
       if (K < 2){
-        cat('K invalid, repetez svp')
+        cat('K est invalide, répétez svp')
       }
       else{
         break
@@ -128,16 +167,18 @@ clustering = function(X, K){
   }
   
   clust_fisher = clustfisher(D, K)
-  cat('fisher clustering...done\n')
+  cat('fisher clustering...terminé\n')
+  
   clust_kmeans = kmeans(X, K)
-  cat('kmeans clustering...done\n')
+  cat('kmeans clustering...terminé\n')
+  
   D = dist(X, method = 'euclidean')
   clust_cah_ward = hclust(D, method = 'ward.D2')
-  cat('CAH-Ward clustering...done\n')
+  cat('CAH-Ward clustering...terminé\n')
   list('clust_fisher' = clust_fisher, 'clust_kmeans' = clust_kmeans, 'clust_cah_ward' = clust_cah_ward, 'K' = K)
 }
 
-# Jeu de donnees simulees: sequencesimu
+# Jeu de données simulées: sequencesimu
 sequencesimu = read.table('workspace/master2/apprentissage_non_supervisé/projet/sequencesimu.txt')
 summary(sequencesimu)
 boxplot(sequencesimu)
@@ -151,28 +192,29 @@ plot(sequencesimu$V1, main = 'K-means clustering', col = sequencesimu_clustering
 plot(sequencesimu$V1, main = 'CAH-Ward clustering', col = cutree(sequencesimu_clustering$clust_cah_ward, k = sequencesimu_clustering$K), ylab = 'X')
 
 
-# Jeu de donnees reelles: aiquillage
-aiquillage = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
-aiquillage_label = aiquillage[, 553]
-aiquillage = aiquillage[, -553]
+# Jeu de données réelles: aiguillage
+aiguillage = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
+aiguillage_label = aiguillage[, 553]
+aiguillage = aiguillage[, -553]
 
-summary(aiquillage)
+summary(aiguillage)
 
-aiquillage_clustering = clustering(aiquillage, K = 4)
+aiguillage_clustering = clustering(aiguillage, K = 4)
 
 par(mfrow = c(2, 2))
-matplot(t(aiquillage), main = 'Jeu de données: aiquillage', type = 'l', lty = 1, col = aiquillage_label, xlab = 'time', ylab = 'Power (Watts)')
-matplot(t(aiquillage), main = 'Fisher clustering', type = 'l', lty = 1, col = aiquillage_clustering$clust_fisher$cluster, xlab = 'time', ylab = 'Power (Watts)')
-matplot(t(aiquillage), main = 'K-means clustering', type = 'l', lty = 1, col = aiquillage_clustering$clust_kmeans$cluster, xlab = 'time', ylab = 'Power (Watts)')
-matplot(t(aiquillage), main = 'CAH-Ward clustering', type = 'l', lty = 1, col = cutree(aiquillage_clustering$clust_cah_ward, k = aiquillage_clustering$K), xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiguillage), main = 'Jeu de données: aiguillage', type = 'l', lty = 1, col = aiguillage_label, xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiguillage), main = 'Fisher clustering', type = 'l', lty = 1, col = aiguillage_clustering$clust_fisher$cluster, xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiguillage), main = 'K-means clustering', type = 'l', lty = 1, col = aiguillage_clustering$clust_kmeans$cluster, xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiguillage), main = 'CAH-Ward clustering', type = 'l', lty = 1, col = cutree(aiguillage_clustering$clust_cah_ward, k = aiguillage_clustering$K), xlab = 'time', ylab = 'Power (Watts)')
 
 
-# Re-classifier plusieur fois avec K-means
+# Re-classifier plusieurs fois avec K-means
 par(mfrow = c(2, 2))
 for (i in 1:4){
-  KM = kmeans(aiquillage, 4)
-  matplot(t(aiquillage), type = 'l', lty = 1, col = KM$cluster, xlab = 'time', ylab = 'Power (Watts)')
+  KM = kmeans(aiguillage, 4)
+  matplot(t(aiguillage), type = 'l', lty = 1, col = KM$cluster, xlab = 'time', ylab = 'Power (Watts)')
 }
 
-# Evaluer temps d'execution
-system.time(clustering(aiquillage, 4))
+# Evaluer le temps d'exécution
+system.time(diam_matrice(aiguillage))
+system.time(clustering(aiguillage, 4))
