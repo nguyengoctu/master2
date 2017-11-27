@@ -135,7 +135,9 @@ clustering = function(X, K){
   #clusts_fisher = rep(NA, 10)
   D = distance(X)
   n = nrow(X)
-    
+  
+  # Si K ne se présente pas, je vais classifier X plusieurs fois avec le K varie 
+  # (en utilisant l’algorithme Fisher) pour la méthode du coude. 
   if (missing(K)){
     cat("Calcul d'inertie intra-classe pour la méthode du coude...\n")
     inerties_intra_classes = rep(NA, 10)
@@ -199,21 +201,41 @@ aiguillage = aiguillage[, -553]
 
 summary(aiguillage)
 
-aiguillage_clustering = clustering(aiguillage, K = 4)
+K = 4
+aiguillage_clustering = clustering(aiguillage, K = K)
 
 par(mfrow = c(2, 2))
 matplot(t(aiguillage), main = 'Jeu de données: aiguillage', type = 'l', lty = 1, col = aiguillage_label, xlab = 'time', ylab = 'Power (Watts)')
 matplot(t(aiguillage), main = 'Fisher clustering', type = 'l', lty = 1, col = aiguillage_clustering$clust_fisher$cluster, xlab = 'time', ylab = 'Power (Watts)')
 matplot(t(aiguillage), main = 'K-means clustering', type = 'l', lty = 1, col = aiguillage_clustering$clust_kmeans$cluster, xlab = 'time', ylab = 'Power (Watts)')
-matplot(t(aiguillage), main = 'CAH-Ward clustering', type = 'l', lty = 1, col = cutree(aiguillage_clustering$clust_cah_ward, k = aiguillage_clustering$K), xlab = 'time', ylab = 'Power (Watts)')
+matplot(t(aiguillage), main = 'CAH-Ward clustering', type = 'l', lty = 1, col = cutree(aiguillage_clustering$clust_cah_ward, k = K), xlab = 'time', ylab = 'Power (Watts)')
+
+
+# Evaluer la performance des algorithmes avec l'Indice de Rand (Adjusted Rand Index)
+library(mclust)
+
+# Performance de l'algorithme de Fisher
+cat("L'Indice de Rand entre des labels vrais et des labels Fisher: ", adjustedRandIndex(aiguillage_label, aiguillage_clustering$clust_fisher$cluster))
+
+# Performance de l'algorithme de CAH-Ward
+cat("L'Indice de Rand entre des labels vrais et des labels CAH-Ward: ", adjustedRandIndex(aiguillage_label, cutree(aiguillage_clustering$clust_cah_ward, k = K)))
 
 
 # Re-classifier plusieurs fois avec K-means
 par(mfrow = c(2, 2))
+max_rand_index = 0.0
+
+best_KM = NA
 for (i in 1:4){
   KM = kmeans(aiguillage, 4)
+  if (adjustedRandIndex(aiguillage_label, KM$cluster) > max_rand_index){
+    best_KM = KM
+    max_rand_index = adjustedRandIndex(aiguillage_label, best_KM$cluster)
+  }
   matplot(t(aiguillage), type = 'l', lty = 1, col = KM$cluster, xlab = 'time', ylab = 'Power (Watts)')
 }
+cat("Le meilleur K-means a l'indice Rand: ", max_rand_index)
+
 
 # Evaluer le temps d'exécution
 system.time(diam_matrice(aiguillage))
