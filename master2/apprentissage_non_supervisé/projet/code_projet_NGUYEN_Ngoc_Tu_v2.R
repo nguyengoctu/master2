@@ -26,7 +26,8 @@ diam_matrice = function(X){
   # 
   # Outputs :
   #   - Matrice de diamètres des classes
-   n = nrow(X)
+
+  n = nrow(X)
   D = matrix(NA, nrow = n, ncol = n)
   for (a in 1:n){
     for (b in a:n){
@@ -52,8 +53,8 @@ clustfisher = function(D, K){
 
   n = nrow(D)
   # D = matrix(NA, nrow = n, ncol = n)
-
-    M1 = matrix(NA, nrow = n, ncol = n)
+  
+  M1 = matrix(NA, nrow = n, ncol = n)
   M2 = matrix(NA, nrow = n, ncol = n)
   t = rep(NA, K - 1)
   cluster = rep(NA, n)
@@ -197,13 +198,12 @@ plot(sequencesimu$V1, main = 'CAH-Ward clustering', col = cutree(sequencesimu_cl
 aiguillage = read.table('workspace/master2/apprentissage_non_supervisé/Aiguillage.txt', header = FALSE, sep = ',')
 aiguillage_label = aiguillage[, 553]
 aiguillage = aiguillage[, -553]
+summary(aiguillage)
 
-smmary(aiguillage)
+# Cette ligne de code diminue énormément le temps d'exécution
+aiguillage = as.matrix(aiguillage)
 
-K
-# Cette ligne de code diminue enormement le temps d'execution
-aiguillage = as.matrix(aiguillage) 
-= 4
+K = 4
 aiguillage_clustering = clustering(aiguillage, K = K)
 
 par(mfrow = c(2, 2))

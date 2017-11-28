@@ -29,10 +29,10 @@ pairs(spam[,49:54], col=as.numeric(g))
 # Régression linéaire 
 # B. Pourquoi la régression linéaire n'est pas adaptée!? 
 # régression linéaire sur une variable indicatrice (binaire) 
-y <- ifelse(g=="spam", 1, 0) 
+y <- ifelse(g=="spam", 1, 0)
 
 # Calculer la régression linéaire 
-lm.fit <- lm(y~., data = spam[, 1:57]) 
+lm.fit <- lm(y~., data = spam[, 1:57])
 
 # coefficients de régression
 lm.beta <- lm.fit$coef 
@@ -71,7 +71,7 @@ library(class)
 kmax=100 
 err_test <- rep(NA,kmax) 
 for (k in 1:kmax) { 
-  pred <- knn(Xtrain[,-58], Xtest[,-58], Xtrain[, 58], k) # knn(train, test, train_label, k)
+  pred <- knn(Xtrain[,-(55:58)], Xtest[,-(55:58)], Xtrain[, 58], k) # knn(train, test, train_label, k)
   err_test[k] <- sum(pred!=Xtest[, 58])/length(Xtest[, 58]) 
 } 
 lim <- c(0,max(err_test)) 
