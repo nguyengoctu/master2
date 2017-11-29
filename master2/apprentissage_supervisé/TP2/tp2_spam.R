@@ -13,6 +13,7 @@ attach(spam)
 # statistique descriptive
 # univariée
 summary(spam)
+
 boxplot(spam)
 
 # bivariée
@@ -27,8 +28,8 @@ pairs(spam[,49:54], col=as.numeric(g))
 
 X = spam
 
-spam_normalized = scale(spam[, -58], center = T, scale = T)
-X = cbind(spam_normalized, spam[, 58])
+#spam_normalized = scale(spam[, -58], center = T, scale = T)
+#X = cbind(spam_normalized, spam[, 58])
 # X = as.matrix(X)
 
 # Régression linéaire 

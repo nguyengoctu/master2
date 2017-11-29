@@ -96,7 +96,7 @@ for (k in 1:kmax) {
 } 
 points(err_test,type="l",col=4) 
 legend("bottomright", legend=c("decoupage 1", "decoupage 2"), lty=1, col=c(2,4))
-
+which.min(err_test)
 
 # (4) Exécuter le code suivant et faire un choix pour k. 
 
@@ -144,8 +144,9 @@ which.min(err_test)
 # (1) Couper aléatoirement les données des deux parties : 
 # un ensemble "apprentissage-validation" (75 % des données) 
 # et un ensemble test de taille (25% des données). 
+
 set.seed(30) 
-tr <- sample(1:nrow(X),72) 
+tr <- sample(1:nrow(X),73) 
 Xtrainval <- X[tr,] 
 Xtest <- X[-tr,] 
 
@@ -158,7 +159,7 @@ B <- 25
 kmax <- 50
 err_valid <- matrix(NA,kmax,B) 
 for (b in 1:B) { 
-  tr <- sample(1:nrow(Xtrainval),36) 
+  tr <- sample(1:nrow(Xtrainval),49) 
   Xtrain <- Xtrainval[tr,] 
   Xvalid <- Xtrainval[-tr,] 
   for (k in 1:kmax) 
@@ -169,6 +170,7 @@ for (b in 1:B) {
 } 
 mean_err_valid <- apply(err_valid,1,mean) 
 plot(mean_err_valid,type="l")
+which.min(mean_err_valid)
 
 # ii. Constuire le classifieur avec ce nombre de voisins 
 # sur l’ensemble "apprentissage-validation" et calculer le taux d’erreur des données test. 
@@ -209,7 +211,7 @@ for (b in 1:B)
   err_test[b] <- sum(pred!=Xtest[,1])/length(Xtest[,1]) 
 } 
 boxplot(err_test,main="Erreurs test pour 50 decoupages")
-
+plot(err_test, type = 'l')
 # 2.4 Bayésien naïf 
 
 # 1. Appliquer le classifieur byésien naïf sur la table X. 
