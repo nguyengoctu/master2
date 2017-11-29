@@ -88,8 +88,8 @@ which.min(err_test)
 # qu’à la question précédente.
 set.seed(10) 
 tr <- sample(1:nrow(X),90) 
-train <- X[tr,] 
-test <- X[-tr,] 
+Xtrain <- X[tr,] 
+Xtest <- X[-tr,] 
 for (k in 1:kmax) { 
   pred <- knn(Xtrain[,-1],Xtest[,-1], Xtrain [,1],k) 
   err_test[k] <- sum(pred!=Xtest[,1])/length(Xtest[,1])
@@ -119,7 +119,7 @@ matplot(err_test,type="l",lty=2,col=2,ylim=lim, xlab="nombre de voisins",ylab="t
 matpoints(mean_err_test,type="l",col=2,lwd=4) 
 legend("bottomright", legend=c("Erreur moyenne", "Erreurs conditionnelles"), 
        lty=c(1,3),lwd=c(4,2),col=c(2,2))
-
+which.min(mean_err_test)
 
 # (5) Choisir maintenant le nombre k de voisin en utilisant par 
 # validation croisée (cross validation) leave-one-out (LOO) avec la fonction knn.cv. 
@@ -133,7 +133,7 @@ lim <-c(0,max(err_test))
 plot(err_test,type="l",col=2,ylim=lim,xlab="nombre de voisins", ylab="taux d'erreur") 
 points(mean_err_test,type="l",col=4,lwd=1) 
 legend("bottomright", legend=c("Erreur loo", "Erreur moyenne"), col=c(2,4),lty=1)
-
+which.min(err_test)
 # (6) Faire un petit bilan méthodologique concernant le choix du paramètre k. 
 
 # D. On veut maintenant non seulement choisir k mais également avoir une idée 

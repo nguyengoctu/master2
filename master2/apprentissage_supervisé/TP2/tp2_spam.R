@@ -25,6 +25,11 @@ pairs(spam[,49:54], col=as.numeric(g))
 # régression linéaire, k plus proches voisins et le classifieur bayésien naïf 
 # sur le jeu de données spam. 
 
+X = spam
+
+spam_normalized = scale(spam[, -58], center = T, scale = T)
+X = cbind(spam_normalized, spam[, 58])
+# X = as.matrix(X)
 
 # Régression linéaire 
 # B. Pourquoi la régression linéaire n'est pas adaptée!? 
@@ -32,7 +37,7 @@ pairs(spam[,49:54], col=as.numeric(g))
 y <- ifelse(g=="spam", 1, 0)
 
 # Calculer la régression linéaire 
-lm.fit <- lm(y~., data = spam[, 1:57])
+lm.fit <- lm(y~., data = X[, 1:57])
 
 # coefficients de régression
 lm.beta <- lm.fit$coef 
@@ -58,10 +63,10 @@ table(lm.ghat, g)
 # (1) Créer un jeu de données de données d’apprentissage (75% des données) 
 # et un jeu de données test (25% des données) avec le code suivant. 
 set.seed(30) 
-num_train = as.integer(nrow(spam) * 0.75)
-tr <- sample(1:nrow(spam), num_train) 
-Xtrain <- spam[tr,]
-Xtest <- spam[-tr,] 
+num_train = as.integer(nrow(X) * 0.75)
+tr <- sample(1:nrow(X), num_train) 
+Xtrain <- X[tr,]
+Xtest <- X[-tr,] 
 
 # (2) Calculer les taux d’erreur sur les données test pour k variant de 1 à 100. 
 # Avec la fonction plot, représenter ce taux d’erreur test en fonction de k 
@@ -71,7 +76,7 @@ library(class)
 kmax=100 
 err_test <- rep(NA,kmax) 
 for (k in 1:kmax) { 
-  pred <- knn(Xtrain[,-(55:58)], Xtest[,-(55:58)], Xtrain[, 58], k) # knn(train, test, train_label, k)
+  pred <- knn(Xtrain[,-58], Xtest[,-58], Xtrain[, 58], k) # knn(train, test, train_label, k)
   err_test[k] <- sum(pred!=Xtest[, 58])/length(Xtest[, 58]) 
 } 
 lim <- c(0,max(err_test)) 
@@ -84,11 +89,11 @@ which.min(err_test)
 # et représenter la courbe d’évolution du taux d’erreur test sur le même graphique 
 # qu’à la question précédente.
 set.seed(10) 
-tr <- sample(1:nrow(spam), num_train) 
-train <- spam[tr,] 
-test <- spam[-tr,] 
+tr <- sample(1:nrow(X), num_train) 
+Xtrain <- X[tr,] 
+Xtest <- X[-tr,] 
 for (k in 1:kmax) { 
-  pred <- knn(Xtrain[,-58],Xtest[,-58], Xtrain [,58],k) 
+  pred <- knn(Xtrain[,-(55:58)],Xtest[,-(55:58)], Xtrain [,58],k) 
   err_test[k] <- sum(pred!=Xtest[,58])/length(Xtest[,58])
 } 
 points(err_test,type="l",col=4) 
@@ -101,12 +106,12 @@ B<- 20
 kmax <- 100 
 err_test <- matrix(NA,kmax,B) 
 for (b in 1:B) { 
-  tr <- sample(1:nrow(spam),num_train) 
+  tr <- sample(1:nrow(X),num_train) 
   Xtrain <- spam[tr,] 
   Xtest <- spam[-tr,] 
   for (k in 1:kmax) 
   { 
-    pred <- knn(Xtrain[,-58],Xtest[,-58], Xtrain [,58],k) 
+    pred <- knn(Xtrain[,-(55:58)],Xtest[,-(55:58)], Xtrain [,58],k) 
     err_test[k,b] <- sum(pred!= Xtest[,58])/length(Xtest[,58]) 
   }
 } 
@@ -123,8 +128,8 @@ legend("bottomright", legend=c("Erreur moyenne", "Erreurs conditionnelles"),
 ?knn.cv  # Default: leave-one-out
 err_test <- rep(NA,kmax) 
 for (k in 1:kmax) { 
-  pred <- knn.cv(spam[,-58], spam[,58],k) 
-  err_test[k] <- sum(pred!= spam[,58])/length(spam[,58]) 
+  pred <- knn.cv(X[,-(55:58)], X[,58],k) 
+  err_test[k] <- sum(pred!= X[,58])/length(X[,58]) 
 } 
 lim <-c(0,max(err_test)) 
 plot(err_test,type="l",col=2,ylim=lim,xlab="nombre de voisins", ylab="taux d'erreur") 
@@ -142,7 +147,7 @@ legend("bottomright", legend=c("Erreur loo", "Erreur moyenne"), col=c(2,4),lty=1
 # un ensemble "apprentissage-validation" (75 % des données) 
 # et un ensemble test de taille (25% des données). 
 set.seed(30) 
-tr <- sample(1:nrow(X),72) 
+tr <- sample(1:nrow(X), num_train) 
 Xtrainval <- X[tr,] 
 Xtest <- X[-tr,] 
 
@@ -153,15 +158,16 @@ Xtest <- X[-tr,]
 #ensembles de validations de B = 25 découpages. 
 B <- 25 
 kmax <- 50
-err_valid <- matrix(NA,kmax,B) 
+err_valid <- matrix(NA,kmax,B)
+num_val = as.integer(nrow(Xtrainval) / 3)
 for (b in 1:B) { 
-  tr <- sample(1:nrow(Xtrainval),36) 
+  tr <- sample(1:nrow(Xtrainval), num_train - num_val) 
   Xtrain <- Xtrainval[tr,] 
   Xvalid <- Xtrainval[-tr,] 
   for (k in 1:kmax) 
   { 
-    pred <- knn(Xtrain[,-1],Xvalid[,-1],Xtrain[,1],k) 
-    err_valid[k,b] <- sum(pred!=Xvalid[,1])/length(Xvalid[,1]) 
+    pred <- knn(Xtrain[,-(55:58)],Xvalid[,-(55:58)],Xtrain[,58],k) 
+    err_valid[k,b] <- sum(pred!=Xvalid[,58])/length(Xvalid[,58]) 
   } 
 } 
 mean_err_valid <- apply(err_valid,1,mean) 
@@ -169,20 +175,20 @@ plot(mean_err_valid,type="l")
 
 # ii. Constuire le classifieur avec ce nombre de voisins 
 # sur l’ensemble "apprentissage-validation" et calculer le taux d’erreur des données test. 
-pred <- knn(Xtrainval[,-1],Xtest[,-1],Xtrainval[,1],k=which.min(mean_err_valid)) 
-sum(pred!=Xtest[,1])/length(Xtest[,1]) 
+pred <- knn(Xtrainval[,-(55:58)],Xtest[,-(55:58)],Xtrainval[,58],k=which.min(mean_err_valid)) 
+sum(pred!=Xtest[,58])/length(Xtest[,58]) 
 
 # (3) Utiliser la seconde approche pour choisir k par validation croisée LOO 
 # sur l’ensemble "apprentissage validation". Calculer ensuite le taux d’erreur des données test. 
 err_valid <- rep(NA,kmax) 
 for (k in 1:kmax) 
 { 
-  pred <- knn.cv(Xtrainval[,-1],Xtrainval[,1],k) 
-  err_valid[k] <- sum(pred!=Xtrainval[,1])/length(Xtrainval[,1]) 
+  pred <- knn.cv(Xtrainval[,-(55:58)],Xtrainval[,58],k) 
+  err_valid[k] <- sum(pred!=Xtrainval[,58])/length(Xtrainval[,58]) 
 } 
 which.min(err_valid) 
-pred <- knn(Xtrainval[,-1],Xtest[,-1],Xtrainval[,1],k=which.min(err_valid)) 
-sum(pred!=Xtest[,1])/length(Xtest[,1])
+pred <- knn(Xtrainval[,-(55:58)],Xtest[,-(55:58)],Xtrainval[,58],k=which.min(err_valid)) 
+sum(pred!=Xtest[,58])/length(Xtest[,58])
 
 # E. Pour les courageux, on pourrait recommencer avec plusieurs découpages 
 # des données en deux parties "apprentissage-validation" et "test". 
@@ -194,16 +200,16 @@ err_valid <- rep(NA,kmax)
 err_test <- rep(NA,B) 
 for (b in 1:B) 
 { 
-  tr <- sample(1:nrow(X),72) 
+  tr <- sample(1:nrow(X),num_train) 
   Xtrainval <- X[tr,] 
   Xtest <- X[-tr,] 
   for (k in 1:kmax) 
   {
-    pred <- knn.cv(Xtrainval[,-1],Xtrainval[,1],k) 
-    err_valid[k] <- sum(pred!=Xtrainval[,1])/length(Xtrainval[,1]) 
+    pred <- knn.cv(Xtrainval[,-(55:58)],Xtrainval[,58],k) 
+    err_valid[k] <- sum(pred!=Xtrainval[,58])/length(Xtrainval[,58]) 
   } 
-  pred <- knn(Xtrainval[,-1],Xtest[,-1],Xtrainval[,1],k=which.min(err_valid)) 
-  err_test[b] <- sum(pred!=Xtest[,1])/length(Xtest[,1]) 
+  pred <- knn(Xtrainval[,-(55:58)],Xtest[,-(55:58)],Xtrainval[,58],k=which.min(err_valid)) 
+  err_test[b] <- sum(pred!=Xtest[,58])/length(Xtest[,58]) 
 } 
 boxplot(err_test,main="Erreurs test pour 50 decoupages")
 
@@ -211,11 +217,11 @@ boxplot(err_test,main="Erreurs test pour 50 decoupages")
 
 # 1. Appliquer le classifieur byésien naïf sur la table X. 
 
-prostate.d<-prostate[, -c(9,10)] # ensemble apprentissage 
+# ensemble apprentissage 
 ## Utiliser le pakcage e1071 
 library(e1071) 
-m <- naiveBayes(g ~ ., data = prostate.d) 
+m <- naiveBayes(g ~ ., data = X[, -58]) 
 ## alternativement: 
-m <- naiveBayes(prostate.d, g) 
+m <- naiveBayes(X[, -58], g) 
 m 
-table(predict(m, prostate.d), g) 
+table(predict(m, X[, -58]), g) 
