@@ -33,8 +33,12 @@ X = spam[, -58]
 X = spam[, -(55:58)]
 
 # Case 3
-X = spam_normalized[, -58]
+spam_colsums_racine_carre = sqrt(as.vector(colSums(spam[, -58])))
+spam_rowsums_racine_carre = sqrt(as.vector(rowSums(spam[, -58])))
+norm_matrix = spam_rowsums_racine_carre %o% spam_colsums_racine_carre
+X = spam[, -58] / norm_matrix
 
+# g
 g = factor(spam[, 58])
 
 #spam_normalized = scale(spam[, -58], center = T, scale = T)
