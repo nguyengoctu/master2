@@ -211,6 +211,7 @@ for (b in 1:B)
   err_test[b] <- sum(pred!=Xtest[,1])/length(Xtest[,1]) 
 } 
 boxplot(err_test,main="Erreurs test pour 50 decoupages")
+mean(err_test)
 plot(err_test, type = 'l')
 # 2.4 Bayésien naïf 
 
