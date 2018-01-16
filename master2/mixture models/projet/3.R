@@ -1,11 +1,11 @@
 # 2. Importer ces tables en utilisant la librairie R.matlab.
 library(R.matlab)
-setwd('~/master2/master2/mixture models/projet/DATA_MATLAB - Projet-master-MLDS/')
+setwd('/media/ngoctu/769829E69829A599/workspace/master2/master2/mixture models/projet/DATA_MATLAB - Projet-master-MLDS/')
 donnees = readMat('MNIST5.mat')
 donnees$y = as.factor(donnees$y)
 donnees = data.frame(donnees$X, donnees$y)
 habillage = dim(donnees)[2]
-setwd('~/master2/master2/mixture models/projet/3_mnist/')
+setwd('../3_mnist/')
 
 # Normalisation
 # donnees[, -habillage] = scale(donnees[, -habillage], center = T, scale = T)
@@ -13,7 +13,7 @@ setwd('~/master2/master2/mixture models/projet/3_mnist/')
 
 # 3. Visualiser les nuages des points en croisant les variables deux à deux.
 png('scattermatrix.png', width = 800, height = 600, units = 'px')
-pairs(donnees[, 1:5], col = donnees$donnees.y)
+pairs(donnees[, 1:10], col = donnees$donnees.y)
 dev.off()
 
 

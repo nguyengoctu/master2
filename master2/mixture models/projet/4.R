@@ -1,11 +1,11 @@
 # 2. Importer ces tables en utilisant la librairie R.matlab.
 library(R.matlab)
-setwd('~/master2/master2/mixture models/projet/DATA_MATLAB - Projet-master-MLDS/')
+setwd('/media/ngoctu/769829E69829A599/workspace/master2/master2/mixture models/projet/DATA_MATLAB - Projet-master-MLDS/')
 donnees = readMat('MFEAT1.mat')
 donnees$y = as.factor(donnees$y)
 donnees = data.frame(donnees$X, donnees$y)
 habillage = dim(donnees)[2]
-setwd('~/master2/master2/mixture models/projet/1_jaffe/')
+setwd('../4_mfea/')
 
 # Normalisation
 # donnees[, -habillage] = scale(donnees[, -habillage], center = T, scale = T)
@@ -30,7 +30,7 @@ png('PCA2.png', width = 800, height = 600, units = 'px')
 plot(donnees.acp, choix = 'ind', habillage = habillage)
 dev.off()
 
-donnees.tsne = Rtsne(donnees[, -habillage], dims = 2, perplexity = 30, max_iter = 1000, check_duplicate = F)
+donnees.tsne = Rtsne(donnees[, -habillage], dims = 2, perplexity = 30, max_iter = 3000, check_duplicate = F)
 
 png('tsne1.png', width = 800, height = 600, units = 'px')
 plot(donnees.tsne$Y, xlab = 't-SNE dim 1', ylab = 't-SNE dim 2', main = 't-SNE')
