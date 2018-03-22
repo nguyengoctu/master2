@@ -1,2 +1,0 @@
-<protocol>://<host>:<port>/<database_name>
-jdbc:h2:C:\KDDExperimentsMichael\h2database

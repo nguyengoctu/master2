@@ -1,8 +1,0 @@
-knime://knime.workflow/data.all
-/home/ngoctu/workspace/master2/exploration_visuelle_des_donnees/Churn.xls
-knime://knime.workflow/KDD_data/smallDataSet/orange_small_train_appetency.labels
-knime://knime.workflow/KDD_data/smallDataSet/orange_small_train_upselling.labels
-knime://knime.workflow/KDD_data/smallDataSet/orange_small_train_churn.labels
-knime://knime.workflow/KDD_data/smallDataSet/orange_small_train_.labels
-file:/Users/knime/Documents/Workspaces/KDD%20Whitepaper/KDD_data/smallDataSet/orange_small_train_churn.labels
-knime://knime.workflow/KDD_data/smallDataSet/orange_small_train.data
